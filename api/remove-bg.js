@@ -1,4 +1,4 @@
-import { getHeader, parseMultipart, readRequestBody, sendBuffer, sendJson } from "./_shared.js";
+import { getHeader, parseMultipart, readRequestBody, sendBuffer, sendJson } from "../lib/api-shared.js";
 
 export const config = {
   api: {

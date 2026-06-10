@@ -1,4 +1,4 @@
-import { readRequestBody, sendJson } from "./_shared.js";
+import { readRequestBody, sendJson } from "../lib/api-shared.js";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
