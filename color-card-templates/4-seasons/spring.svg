@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1440" viewBox="0 0 1080 1440" fill="none">
+  <metadata>{&quot;id&quot;:&quot;spring&quot;,&quot;title&quot;:&quot;春季型&quot;,&quot;group&quot;:&quot;spring&quot;,&quot;generatedFrom&quot;:&quot;color_seasons.json&quot;}</metadata>
+  <g id="color-ring" shape-rendering="geometricPrecision">
+    <path d="M 540.00 -382.00 A 900 1120 0 0 1 884.42 -296.75 L 660.55 340.73 A 315 430 0 0 0 540.00 308.00 Z" fill="#FF6B6B" stroke="#ffffff" stroke-width="5" stroke-linejoin="round"><title>珊瑚红</title></path>
+    <path d="M 884.42 -296.75 A 900 1120 0 0 1 1176.40 -53.96 L 762.74 433.94 A 315 430 0 0 0 660.55 340.73 Z" fill="#FFB347" stroke="#ffffff" stroke-width="5" stroke-linejoin="round"><title>暖桃粉</title></path>
+    <path d="M 1176.40 -53.96 A 900 1120 0 0 1 1371.49 309.39 L 831.02 573.45 A 315 430 0 0 0 762.74 433.94 Z" fill="#87CEEB" stroke="#ffffff" stroke-width="5" stroke-linejoin="round"><title>晴空蓝</title></path>
+    <path d="M 1371.49 309.39 A 900 1120 0 0 1 1440.00 738.00 L 855.00 738.00 A 315 430 0 0 0 831.02 573.45 Z" fill="#FFD700" stroke="#ffffff" stroke-width="5" stroke-linejoin="round"><title>向日葵黄</title></path>
+    <path d="M 1440.00 738.00 A 900 1120 0 0 1 1371.49 1166.61 L 831.02 902.55 A 315 430 0 0 0 855.00 738.00 Z" fill="#FF8C42" stroke="#ffffff" stroke-width="5" stroke-linejoin="round"><title>暖橙</title></path>
+    <path d="M 1371.49 1166.61 A 900 1120 0 0 1 1176.40 1529.96 L 762.74 1042.06 A 315 430 0 0 0 831.02 902.55 Z" fill="#90EE90" stroke="#ffffff" stroke-width="5" stroke-linejoin="round"><title>草地绿</title></path>
+    <path d="M 1176.40 1529.96 A 900 1120 0 0 1 884.42 1772.75 L 660.55 1135.27 A 315 430 0 0 0 762.74 1042.06 Z" fill="#FBCEB1" stroke="#ffffff" stroke-width="5" stroke-linejoin="round"><title>杏色</title></path>
+    <path d="M 884.42 1772.75 A 900 1120 0 0 1 540.00 1858.00 L 540.00 1168.00 A 315 430 0 0 0 660.55 1135.27 Z" fill="#C3B091" stroke="#ffffff" stroke-width="5" stroke-linejoin="round"><title>暖卡其</title></path>
+    <path d="M 540.00 1858.00 A 900 1120 0 0 1 195.58 1772.75 L 419.45 1135.27 A 315 430 0 0 0 540.00 1168.00 Z" fill="#ADFF2F" stroke="#ffffff" stroke-width="5" stroke-linejoin="round"><title>黄绿</title></path>
+    <path d="M 195.58 1772.75 A 900 1120 0 0 1 -96.40 1529.96 L 317.26 1042.06 A 315 430 0 0 0 419.45 1135.27 Z" fill="#FFFDD0" stroke="#ffffff" stroke-width="5" stroke-linejoin="round"><title>奶油白</title></path>
+    <path d="M -96.40 1529.96 A 900 1120 0 0 1 -291.49 1166.61 L 248.98 902.55 A 315 430 0 0 0 317.26 1042.06 Z" fill="#FFD700" stroke="#ffffff" stroke-width="5" stroke-linejoin="round"><title>金黄</title></path>
+    <path d="M -291.49 1166.61 A 900 1120 0 0 1 -360.00 738.00 L 225.00 738.00 A 315 430 0 0 0 248.98 902.55 Z" fill="#FFF8DC" stroke="#ffffff" stroke-width="5" stroke-linejoin="round"><title>奶油白</title></path>
+    <path d="M -360.00 738.00 A 900 1120 0 0 1 -291.49 309.39 L 248.98 573.45 A 315 430 0 0 0 225.00 738.00 Z" fill="#F6B7A7" stroke="#ffffff" stroke-width="5" stroke-linejoin="round"><title>蜜桃粉</title></path>
+    <path d="M -291.49 309.39 A 900 1120 0 0 1 -96.40 -53.96 L 317.26 433.94 A 315 430 0 0 0 248.98 573.45 Z" fill="#F28C82" stroke="#ffffff" stroke-width="5" stroke-linejoin="round"><title>浅珊瑚</title></path>
+    <path d="M -96.40 -53.96 A 900 1120 0 0 1 195.58 -296.75 L 419.45 340.73 A 315 430 0 0 0 317.26 433.94 Z" fill="#9BD3B4" stroke="#ffffff" stroke-width="5" stroke-linejoin="round"><title>薄荷绿</title></path>
+    <path d="M 195.58 -296.75 A 900 1120 0 0 1 540.00 -382.00 L 540.00 308.00 A 315 430 0 0 0 419.45 340.73 Z" fill="#F7E37C" stroke="#ffffff" stroke-width="5" stroke-linejoin="round"><title>嫩黄</title></path>
+  </g>
+  <ellipse cx="540" cy="738" rx="315" ry="430" fill="transparent" stroke="rgba(255,255,255,0.94)" stroke-width="14"/>
+  <ellipse cx="540" cy="738" rx="329" ry="444" fill="transparent" stroke="rgba(30,30,30,0.16)" stroke-width="2"/>
+</svg>

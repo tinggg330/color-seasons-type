@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1440" viewBox="0 0 1080 1440" fill="none">
+  <metadata>{&quot;id&quot;:&quot;summer&quot;,&quot;title&quot;:&quot;夏季型&quot;,&quot;group&quot;:&quot;summer&quot;,&quot;generatedFrom&quot;:&quot;color_seasons.json&quot;}</metadata>
+  <g id="color-ring" shape-rendering="geometricPrecision">
+    <path d="M 540.00 -382.00 A 900 1120 0 0 1 884.42 -296.75 L 660.55 340.73 A 315 430 0 0 0 540.00 308.00 Z" fill="#F4F2F0" stroke="#ffffff" stroke-width="5" stroke-linejoin="round"><title>珍珠白</title></path>
+    <path d="M 884.42 -296.75 A 900 1120 0 0 1 1176.40 -53.96 L 762.74 433.94 A 315 430 0 0 0 660.55 340.73 Z" fill="#F7B7C8" stroke="#ffffff" stroke-width="5" stroke-linejoin="round"><title>樱花粉</title></path>
+    <path d="M 1176.40 -53.96 A 900 1120 0 0 1 1371.49 309.39 L 831.02 573.45 A 315 430 0 0 0 762.74 433.94 Z" fill="#B9ADD8" stroke="#ffffff" stroke-width="5" stroke-linejoin="round"><title>浅薰衣草</title></path>
+    <path d="M 1371.49 309.39 A 900 1120 0 0 1 1440.00 738.00 L 855.00 738.00 A 315 430 0 0 0 831.02 573.45 Z" fill="#9CC7E4" stroke="#ffffff" stroke-width="5" stroke-linejoin="round"><title>粉蓝</title></path>
+    <path d="M 1440.00 738.00 A 900 1120 0 0 1 1371.49 1166.61 L 831.02 902.55 A 315 430 0 0 0 855.00 738.00 Z" fill="#80C9BE" stroke="#ffffff" stroke-width="5" stroke-linejoin="round"><title>薄荷蓝绿</title></path>
+    <path d="M 1371.49 1166.61 A 900 1120 0 0 1 1176.40 1529.96 L 762.74 1042.06 A 315 430 0 0 0 831.02 902.55 Z" fill="#F1DF7A" stroke="#ffffff" stroke-width="5" stroke-linejoin="round"><title>柔柠黄</title></path>
+    <path d="M 1176.40 1529.96 A 900 1120 0 0 1 884.42 1772.75 L 660.55 1135.27 A 315 430 0 0 0 762.74 1042.06 Z" fill="#8FA3B1" stroke="#ffffff" stroke-width="5" stroke-linejoin="round"><title>雾霾蓝</title></path>
+    <path d="M 884.42 1772.75 A 900 1120 0 0 1 540.00 1858.00 L 540.00 1168.00 A 315 430 0 0 0 660.55 1135.27 Z" fill="#B0A0C0" stroke="#ffffff" stroke-width="5" stroke-linejoin="round"><title>灰紫</title></path>
+    <path d="M 540.00 1858.00 A 900 1120 0 0 1 195.58 1772.75 L 419.45 1135.27 A 315 430 0 0 0 540.00 1168.00 Z" fill="#C0BEC0" stroke="#ffffff" stroke-width="5" stroke-linejoin="round"><title>烟灰</title></path>
+    <path d="M 195.58 1772.75 A 900 1120 0 0 1 -96.40 1529.96 L 317.26 1042.06 A 315 430 0 0 0 419.45 1135.27 Z" fill="#DEB4B4" stroke="#ffffff" stroke-width="5" stroke-linejoin="round"><title>藕粉</title></path>
+    <path d="M -96.40 1529.96 A 900 1120 0 0 1 -291.49 1166.61 L 248.98 902.55 A 315 430 0 0 0 317.26 1042.06 Z" fill="#F0EEF0" stroke="#ffffff" stroke-width="5" stroke-linejoin="round"><title>灰白</title></path>
+    <path d="M -291.49 1166.61 A 900 1120 0 0 1 -360.00 738.00 L 225.00 738.00 A 315 430 0 0 0 248.98 902.55 Z" fill="#C8A2C8" stroke="#ffffff" stroke-width="5" stroke-linejoin="round"><title>薰衣草紫</title></path>
+    <path d="M -360.00 738.00 A 900 1120 0 0 1 -291.49 309.39 L 248.98 573.45 A 315 430 0 0 0 225.00 738.00 Z" fill="#E8A0BF" stroke="#ffffff" stroke-width="5" stroke-linejoin="round"><title>玫瑰粉</title></path>
+    <path d="M -291.49 309.39 A 900 1120 0 0 1 -96.40 -53.96 L 317.26 433.94 A 315 430 0 0 0 248.98 573.45 Z" fill="#F8F8FF" stroke="#ffffff" stroke-width="5" stroke-linejoin="round"><title>冷白</title></path>
+    <path d="M -96.40 -53.96 A 900 1120 0 0 1 195.58 -296.75 L 419.45 340.73 A 315 430 0 0 0 317.26 433.94 Z" fill="#AEC6CF" stroke="#ffffff" stroke-width="5" stroke-linejoin="round"><title>水蓝</title></path>
+    <path d="M 195.58 -296.75 A 900 1120 0 0 1 540.00 -382.00 L 540.00 308.00 A 315 430 0 0 0 419.45 340.73 Z" fill="#C0C0C8" stroke="#ffffff" stroke-width="5" stroke-linejoin="round"><title>冷灰</title></path>
+  </g>
+  <ellipse cx="540" cy="738" rx="315" ry="430" fill="transparent" stroke="rgba(255,255,255,0.94)" stroke-width="14"/>
+  <ellipse cx="540" cy="738" rx="329" ry="444" fill="transparent" stroke="rgba(30,30,30,0.16)" stroke-width="2"/>
+</svg>

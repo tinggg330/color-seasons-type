@@ -1,0 +1,390 @@
+{
+  "size": {
+    "width": 1080,
+    "height": 1440
+  },
+  "selfie_hole": {
+    "shape": "ellipse",
+    "cx": 540,
+    "cy": 738,
+    "rx": 315,
+    "ry": 430
+  },
+  "usage": [
+    "把用户自然光正面自拍放在模板下层。",
+    "模板本身透明，中间椭圆区域透明镂空，外圈色块覆盖在自拍外侧。",
+    "先使用 4-seasons 判断春夏秋冬，再用对应大季型下的 3 张 12-seasons 模板判断子季型。"
+  ],
+  "four_seasons": [
+    {
+      "id": "spring",
+      "title": "春季型",
+      "subtitle": "净春 / 暖春 / 浅春",
+      "group": "spring",
+      "svg": "color-card-templates/4-seasons/spring.svg",
+      "png": "color-card-templates/4-seasons/spring.png",
+      "colors": [
+        "#FF6B6B",
+        "#FFB347",
+        "#87CEEB",
+        "#FFD700",
+        "#FF8C42",
+        "#90EE90",
+        "#FBCEB1",
+        "#C3B091",
+        "#ADFF2F",
+        "#FFFDD0",
+        "#FFD700",
+        "#FFF8DC",
+        "#F6B7A7",
+        "#F28C82",
+        "#9BD3B4",
+        "#F7E37C"
+      ]
+    },
+    {
+      "id": "summer",
+      "title": "夏季型",
+      "subtitle": "浅夏 / 柔夏 / 冷夏",
+      "group": "summer",
+      "svg": "color-card-templates/4-seasons/summer.svg",
+      "png": "color-card-templates/4-seasons/summer.png",
+      "colors": [
+        "#F4F2F0",
+        "#F7B7C8",
+        "#B9ADD8",
+        "#9CC7E4",
+        "#80C9BE",
+        "#F1DF7A",
+        "#8FA3B1",
+        "#B0A0C0",
+        "#C0BEC0",
+        "#DEB4B4",
+        "#F0EEF0",
+        "#C8A2C8",
+        "#E8A0BF",
+        "#F8F8FF",
+        "#AEC6CF",
+        "#C0C0C8"
+      ]
+    },
+    {
+      "id": "autumn",
+      "title": "秋季型",
+      "subtitle": "柔秋 / 暖秋 / 深秋",
+      "group": "autumn",
+      "svg": "color-card-templates/4-seasons/autumn.svg",
+      "png": "color-card-templates/4-seasons/autumn.png",
+      "colors": [
+        "#D4C5A9",
+        "#8C9E8C",
+        "#B8B0A8",
+        "#B5956A",
+        "#C8986C",
+        "#C0B0B0",
+        "#CABC07",
+        "#808000",
+        "#FF7518",
+        "#A0785A",
+        "#6B7A4B",
+        "#722F37",
+        "#2D4A22",
+        "#4A4A20",
+        "#8B5E3C",
+        "#5C3A4A"
+      ]
+    },
+    {
+      "id": "winter",
+      "title": "冬季型",
+      "subtitle": "冷冬 / 深冬 / 净冬",
+      "group": "winter",
+      "svg": "color-card-templates/4-seasons/winter.svg",
+      "png": "color-card-templates/4-seasons/winter.png",
+      "colors": [
+        "#0038A8",
+        "#E8006A",
+        "#F0F0FF",
+        "#4682B4",
+        "#003366",
+        "#A8A8B8",
+        "#CC0000",
+        "#00008B",
+        "#4B0082",
+        "#FFFFFF",
+        "#2C2040",
+        "#FF69B4",
+        "#FFFF66",
+        "#00FF7F",
+        "#FF007F",
+        "#00BFFF"
+      ]
+    }
+  ],
+  "twelve_seasons": [
+    {
+      "id": "bright_spring",
+      "title": "净春",
+      "subtitle": "亮春 / 净暖型",
+      "group": "spring",
+      "svg": "color-card-templates/12-seasons/bright_spring.svg",
+      "png": "color-card-templates/12-seasons/bright_spring.png",
+      "colors": [
+        "#FF6B6B",
+        "#FFB347",
+        "#7BC67E",
+        "#87CEEB",
+        "#FFD700",
+        "#FFFFF0",
+        "#FF8C42",
+        "#90EE90",
+        "#ff8f59",
+        "#81cab5",
+        "#ffeb78",
+        "#c8bd69"
+      ]
+    },
+    {
+      "id": "warm_spring",
+      "title": "暖春",
+      "subtitle": "暖春 / 暖亮型",
+      "group": "spring",
+      "svg": "color-card-templates/12-seasons/warm_spring.svg",
+      "png": "color-card-templates/12-seasons/warm_spring.png",
+      "colors": [
+        "#C19A6B",
+        "#FBCEB1",
+        "#C3B091",
+        "#FF7518",
+        "#ADFF2F",
+        "#FFFDD0",
+        "#A0522D",
+        "#FFD700",
+        "#deb48e",
+        "#e19355",
+        "#d6fe80",
+        "#d09517"
+      ]
+    },
+    {
+      "id": "light_spring",
+      "title": "浅春",
+      "subtitle": "浅暖型 / Light Spring",
+      "group": "spring",
+      "svg": "color-card-templates/12-seasons/light_spring.svg",
+      "png": "color-card-templates/12-seasons/light_spring.png",
+      "colors": [
+        "#FFF8DC",
+        "#F6D5A8",
+        "#F6B7A7",
+        "#F28C82",
+        "#8CC6E8",
+        "#9BD3B4",
+        "#F7E37C",
+        "#B8A7D9",
+        "#fbe7c2",
+        "#f4a295",
+        "#94cdce",
+        "#d8c5ab"
+      ]
+    },
+    {
+      "id": "light_summer",
+      "title": "浅夏",
+      "subtitle": "浅冷型 / Light Summer",
+      "group": "summer",
+      "svg": "color-card-templates/12-seasons/light_summer.svg",
+      "png": "color-card-templates/12-seasons/light_summer.png",
+      "colors": [
+        "#F4F2F0",
+        "#F7B7C8",
+        "#EFA4B8",
+        "#B9ADD8",
+        "#9CC7E4",
+        "#7DB7D8",
+        "#80C9BE",
+        "#F1DF7A",
+        "#f6d5dc",
+        "#d4a9c8",
+        "#8dbfde",
+        "#b9d49c"
+      ]
+    },
+    {
+      "id": "soft_summer",
+      "title": "柔夏",
+      "subtitle": "柔夏 / 柔冷型",
+      "group": "summer",
+      "svg": "color-card-templates/12-seasons/soft_summer.svg",
+      "png": "color-card-templates/12-seasons/soft_summer.png",
+      "colors": [
+        "#C9A9A6",
+        "#8FA3B1",
+        "#B0A0C0",
+        "#A8B8A8",
+        "#C0BEC0",
+        "#DEB4B4",
+        "#B0C4D8",
+        "#F0EEF0",
+        "#aca6ac",
+        "#acacb4",
+        "#cfb9ba",
+        "#d0d9e4"
+      ]
+    },
+    {
+      "id": "cool_summer",
+      "title": "冷夏",
+      "subtitle": "冷夏 / 冷柔型",
+      "group": "summer",
+      "svg": "color-card-templates/12-seasons/cool_summer.svg",
+      "png": "color-card-templates/12-seasons/cool_summer.png",
+      "colors": [
+        "#C8A2C8",
+        "#99C5C4",
+        "#E8A0BF",
+        "#F8F8FF",
+        "#D8B4D8",
+        "#AEC6CF",
+        "#C0C0C8",
+        "#E88080",
+        "#b1b4c6",
+        "#f0ccdf",
+        "#c3bdd4",
+        "#d4a0a4"
+      ]
+    },
+    {
+      "id": "soft_autumn",
+      "title": "柔秋",
+      "subtitle": "柔秋 / 柔暖型",
+      "group": "autumn",
+      "svg": "color-card-templates/12-seasons/soft_autumn.svg",
+      "png": "color-card-templates/12-seasons/soft_autumn.png",
+      "colors": [
+        "#D4C5A9",
+        "#8C9E8C",
+        "#C4846C",
+        "#B8B0A8",
+        "#B5956A",
+        "#A0B080",
+        "#C8986C",
+        "#C0B0B0",
+        "#b0b29b",
+        "#be9a8a",
+        "#aba375",
+        "#c4a48e"
+      ]
+    },
+    {
+      "id": "warm_autumn",
+      "title": "暖秋",
+      "subtitle": "暖秋 / 暖柔型",
+      "group": "autumn",
+      "svg": "color-card-templates/12-seasons/warm_autumn.svg",
+      "png": "color-card-templates/12-seasons/warm_autumn.png",
+      "colors": [
+        "#C68642",
+        "#CABC07",
+        "#808000",
+        "#CB4154",
+        "#FF7518",
+        "#A0785A",
+        "#B7410E",
+        "#6B7A4B",
+        "#c8a125",
+        "#a6612a",
+        "#d07739",
+        "#915e2d"
+      ]
+    },
+    {
+      "id": "deep_autumn",
+      "title": "深秋",
+      "subtitle": "深秋 / 深暖型",
+      "group": "autumn",
+      "svg": "color-card-templates/12-seasons/deep_autumn.svg",
+      "png": "color-card-templates/12-seasons/deep_autumn.png",
+      "colors": [
+        "#722F37",
+        "#5C3317",
+        "#2D4A22",
+        "#4A4A20",
+        "#8B3A3A",
+        "#8B5E3C",
+        "#5C3A4A",
+        "#8B7536",
+        "#673127",
+        "#3c4a21",
+        "#8b4c3b",
+        "#745840"
+      ]
+    },
+    {
+      "id": "cool_winter",
+      "title": "冷冬",
+      "subtitle": "冷冬 / 冷亮型",
+      "group": "winter",
+      "svg": "color-card-templates/12-seasons/cool_winter.svg",
+      "png": "color-card-templates/12-seasons/cool_winter.png",
+      "colors": [
+        "#0038A8",
+        "#E8006A",
+        "#9B59B6",
+        "#F0F0FF",
+        "#4682B4",
+        "#C880C0",
+        "#003366",
+        "#A8A8B8",
+        "#741c89",
+        "#c6a5db",
+        "#8781ba",
+        "#546e8f"
+      ]
+    },
+    {
+      "id": "deep_winter",
+      "title": "深冬",
+      "subtitle": "深冬 / 深冷型",
+      "group": "winter",
+      "svg": "color-card-templates/12-seasons/deep_winter.svg",
+      "png": "color-card-templates/12-seasons/deep_winter.png",
+      "colors": [
+        "#000000",
+        "#CC0000",
+        "#00008B",
+        "#006400",
+        "#4B0082",
+        "#FFFFFF",
+        "#5C0120",
+        "#2C2040",
+        "#660000",
+        "#003246",
+        "#a580c1",
+        "#441130"
+      ]
+    },
+    {
+      "id": "bright_winter",
+      "title": "净冬",
+      "subtitle": "亮冬 / 净冷型",
+      "group": "winter",
+      "svg": "color-card-templates/12-seasons/bright_winter.svg",
+      "png": "color-card-templates/12-seasons/bright_winter.png",
+      "colors": [
+        "#FF69B4",
+        "#0080FF",
+        "#FFFF66",
+        "#00FF7F",
+        "#FFFFFF",
+        "#FF007F",
+        "#00BFFF",
+        "#E8E8F0",
+        "#8075da",
+        "#80ff73",
+        "#ff80bf",
+        "#74d4f8"
+      ]
+    }
+  ]
+}

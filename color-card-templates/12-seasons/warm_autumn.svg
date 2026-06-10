@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1440" viewBox="0 0 1080 1440" fill="none">
+  <metadata>{&quot;id&quot;:&quot;warm_autumn&quot;,&quot;title&quot;:&quot;暖秋&quot;,&quot;group&quot;:&quot;autumn&quot;,&quot;generatedFrom&quot;:&quot;color_seasons.json&quot;}</metadata>
+  <g id="color-ring" shape-rendering="geometricPrecision">
+    <path d="M 540.00 -382.00 A 900 1120 0 0 1 990.00 -231.95 L 697.50 365.61 A 315 430 0 0 0 540.00 308.00 Z" fill="#C68642" stroke="#ffffff" stroke-width="5" stroke-linejoin="round"><title>焦糖</title></path>
+    <path d="M 990.00 -231.95 A 900 1120 0 0 1 1319.42 178.00 L 812.80 523.00 A 315 430 0 0 0 697.50 365.61 Z" fill="#CABC07" stroke="#ffffff" stroke-width="5" stroke-linejoin="round"><title>芥末黄</title></path>
+    <path d="M 1319.42 178.00 A 900 1120 0 0 1 1440.00 738.00 L 855.00 738.00 A 315 430 0 0 0 812.80 523.00 Z" fill="#808000" stroke="#ffffff" stroke-width="5" stroke-linejoin="round"><title>橄榄绿</title></path>
+    <path d="M 1440.00 738.00 A 900 1120 0 0 1 1319.42 1298.00 L 812.80 953.00 A 315 430 0 0 0 855.00 738.00 Z" fill="#CB4154" stroke="#ffffff" stroke-width="5" stroke-linejoin="round"><title>砖红</title></path>
+    <path d="M 1319.42 1298.00 A 900 1120 0 0 1 990.00 1707.95 L 697.50 1110.39 A 315 430 0 0 0 812.80 953.00 Z" fill="#FF7518" stroke="#ffffff" stroke-width="5" stroke-linejoin="round"><title>南瓜橙</title></path>
+    <path d="M 990.00 1707.95 A 900 1120 0 0 1 540.00 1858.00 L 540.00 1168.00 A 315 430 0 0 0 697.50 1110.39 Z" fill="#A0785A" stroke="#ffffff" stroke-width="5" stroke-linejoin="round"><title>深驼</title></path>
+    <path d="M 540.00 1858.00 A 900 1120 0 0 1 90.00 1707.95 L 382.50 1110.39 A 315 430 0 0 0 540.00 1168.00 Z" fill="#B7410E" stroke="#ffffff" stroke-width="5" stroke-linejoin="round"><title>铁锈红</title></path>
+    <path d="M 90.00 1707.95 A 900 1120 0 0 1 -239.42 1298.00 L 267.20 953.00 A 315 430 0 0 0 382.50 1110.39 Z" fill="#6B7A4B" stroke="#ffffff" stroke-width="5" stroke-linejoin="round"><title>苔绿</title></path>
+    <path d="M -239.42 1298.00 A 900 1120 0 0 1 -360.00 738.00 L 225.00 738.00 A 315 430 0 0 0 267.20 953.00 Z" fill="#c8a125" stroke="#ffffff" stroke-width="5" stroke-linejoin="round"><title>焦糖/芥末黄</title></path>
+    <path d="M -360.00 738.00 A 900 1120 0 0 1 -239.42 178.00 L 267.20 523.00 A 315 430 0 0 0 225.00 738.00 Z" fill="#a6612a" stroke="#ffffff" stroke-width="5" stroke-linejoin="round"><title>橄榄绿/砖红</title></path>
+    <path d="M -239.42 178.00 A 900 1120 0 0 1 90.00 -231.95 L 382.50 365.61 A 315 430 0 0 0 267.20 523.00 Z" fill="#d07739" stroke="#ffffff" stroke-width="5" stroke-linejoin="round"><title>南瓜橙/深驼</title></path>
+    <path d="M 90.00 -231.95 A 900 1120 0 0 1 540.00 -382.00 L 540.00 308.00 A 315 430 0 0 0 382.50 365.61 Z" fill="#915e2d" stroke="#ffffff" stroke-width="5" stroke-linejoin="round"><title>铁锈红/苔绿</title></path>
+  </g>
+  <ellipse cx="540" cy="738" rx="315" ry="430" fill="transparent" stroke="rgba(255,255,255,0.94)" stroke-width="14"/>
+  <ellipse cx="540" cy="738" rx="329" ry="444" fill="transparent" stroke="rgba(30,30,30,0.16)" stroke-width="2"/>
+</svg>

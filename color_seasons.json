@@ -1,0 +1,1420 @@
+{
+  "seasons": [
+    {
+      "id": "bright_spring",
+      "name": "净春",
+      "name_en": "Bright Spring",
+      "parent": "spring",
+      "dimensions": {
+        "undertone": "warm",
+        "brightness": "high",
+        "saturation": "high"
+      },
+      "description": "清亮、偏暖、高饱和的春型，肤色通常有透明感和鲜活血色，适合明快干净的暖亮色。",
+      "colors": {
+        "best": [
+          {
+            "name": "珊瑚红",
+            "hex": "#FF6B6B"
+          },
+          {
+            "name": "暖桃粉",
+            "hex": "#FFB347"
+          },
+          {
+            "name": "鹦鹉绿",
+            "hex": "#7BC67E"
+          },
+          {
+            "name": "晴空蓝",
+            "hex": "#87CEEB"
+          },
+          {
+            "name": "向日葵黄",
+            "hex": "#FFD700"
+          },
+          {
+            "name": "象牙白",
+            "hex": "#FFFFF0"
+          },
+          {
+            "name": "暖橙",
+            "hex": "#FF8C42"
+          },
+          {
+            "name": "草地绿",
+            "hex": "#90EE90"
+          }
+        ],
+        "avoid": [
+          {
+            "name": "炭灰",
+            "hex": "#36454F"
+          },
+          {
+            "name": "枯草黄",
+            "hex": "#C8B89A"
+          },
+          {
+            "name": "雾霾蓝",
+            "hex": "#8FA3B1"
+          }
+        ]
+      },
+      "makeup": {
+        "lip": [
+          "珊瑚橘",
+          "西瓜红",
+          "暖桃粉"
+        ],
+        "eye": [
+          "金棕",
+          "暖橙棕",
+          "香槟金"
+        ],
+        "blush": [
+          "桃粉",
+          "橘粉"
+        ],
+        "foundation": "暖调象牙色或自然黄调"
+      },
+      "style_tip": "避免暗沉复杂色，保持整体明快感，金饰比银饰更衬",
+      "aliases": [
+        "亮春",
+        "净暖型",
+        "Clear Spring"
+      ],
+      "palette_character": "明亮、清透、鲜艳，带一点暖意；比暖春更清亮，比净冬更柔暖。",
+      "skin_clues": [
+        "裸脸不一定很白，但看起来有光泽、轻盈、气色活。",
+        "五官与发眉有一定对比，眼神通常清亮。",
+        "被灰浊、旧旧的颜色压住时，脸会显黄、钝、没精神。"
+      ],
+      "draping_effects": {
+        "best": "珊瑚、清黄、草绿、明亮蓝绿会让脸变亮、眼睛更有神。",
+        "avoid": "灰雾色、土棕、沉黑会让肤色变脏或显疲惫。"
+      },
+      "self_test": {
+        "positive": [
+          "穿鲜艳但不厚重的暖色时，脸色像被打光。",
+          "比起黑白极端对比，更适合象牙白配亮彩色。",
+          "金饰通常更融洽，但过旧的暗金会显沉。"
+        ],
+        "negative": [
+          "莫兰迪色显灰。",
+          "驼棕、苔绿面积大时显老气。",
+          "纯黑贴脸会显硬。"
+        ]
+      },
+      "confused_with": [
+        "bright_winter",
+        "warm_spring"
+      ]
+    },
+    {
+      "id": "warm_spring",
+      "name": "暖春",
+      "name_en": "Warm Spring",
+      "parent": "spring",
+      "dimensions": {
+        "undertone": "warm",
+        "brightness": "medium",
+        "saturation": "medium-high"
+      },
+      "description": "暖度最明确的春型，肤色多呈金黄、蜜桃或阳光感，适合轻快鲜活的暖色。",
+      "colors": {
+        "best": [
+          {
+            "name": "驼色",
+            "hex": "#C19A6B"
+          },
+          {
+            "name": "杏色",
+            "hex": "#FBCEB1"
+          },
+          {
+            "name": "暖卡其",
+            "hex": "#C3B091"
+          },
+          {
+            "name": "南瓜橙",
+            "hex": "#FF7518"
+          },
+          {
+            "name": "黄绿",
+            "hex": "#ADFF2F"
+          },
+          {
+            "name": "奶油白",
+            "hex": "#FFFDD0"
+          },
+          {
+            "name": "暖棕",
+            "hex": "#A0522D"
+          },
+          {
+            "name": "金黄",
+            "hex": "#FFD700"
+          }
+        ],
+        "avoid": [
+          {
+            "name": "冰蓝",
+            "hex": "#99C5C4"
+          },
+          {
+            "name": "玫瑰粉",
+            "hex": "#FF66CC"
+          },
+          {
+            "name": "纯黑",
+            "hex": "#000000"
+          }
+        ]
+      },
+      "makeup": {
+        "lip": [
+          "砖红",
+          "暖棕红",
+          "裸橘"
+        ],
+        "eye": [
+          "暖棕",
+          "铜金",
+          "橄榄绿"
+        ],
+        "blush": [
+          "暖橘",
+          "蜜桃"
+        ],
+        "foundation": "黄调暖色粉底"
+      },
+      "style_tip": "金属配饰选黄金或玫瑰金，避免冷色系金属",
+      "aliases": [
+        "暖春",
+        "暖亮型",
+        "True Spring"
+      ],
+      "palette_character": "暖、明亮、中高饱和，像新鲜水果、嫩叶和阳光色。",
+      "skin_clues": [
+        "整体观感温暖、亲切、轻盈。",
+        "发色和瞳色常偏暖棕，黑发也会带暖感。",
+        "冷粉、冰蓝、银灰贴脸容易显青或显僵。"
+      ],
+      "draping_effects": {
+        "best": "杏色、蜜桃、金黄、黄绿、暖蓝绿会让脸色饱满。",
+        "avoid": "冷玫粉、蓝紫、纯黑会削弱血色。"
+      },
+      "self_test": {
+        "positive": [
+          "橘调口红比玫紫调自然。",
+          "奶油白比冷白更显柔和。",
+          "黄金、玫瑰金比银色更衬肤色。"
+        ],
+        "negative": [
+          "银灰和薰衣草紫贴脸显疲惫。",
+          "暗棕太多会把春型的轻盈压住。",
+          "过灰的低饱和色显脏。"
+        ]
+      },
+      "confused_with": [
+        "bright_spring",
+        "warm_autumn"
+      ]
+    },
+    {
+      "id": "light_spring",
+      "name": "浅春",
+      "name_en": "Light Spring",
+      "parent": "spring",
+      "dimensions": {
+        "undertone": "warm",
+        "brightness": "high",
+        "saturation": "low-medium"
+      },
+      "description": "明度最高、最轻盈的春型，肤色给人柔亮、干净、年轻感，适合浅而带暖意的清透颜色。",
+      "colors": {
+        "best": [
+          {
+            "name": "奶油白",
+            "hex": "#FFF8DC"
+          },
+          {
+            "name": "浅杏",
+            "hex": "#F6D5A8"
+          },
+          {
+            "name": "蜜桃粉",
+            "hex": "#F6B7A7"
+          },
+          {
+            "name": "浅珊瑚",
+            "hex": "#F28C82"
+          },
+          {
+            "name": "清水蓝",
+            "hex": "#8CC6E8"
+          },
+          {
+            "name": "薄荷绿",
+            "hex": "#9BD3B4"
+          },
+          {
+            "name": "嫩黄",
+            "hex": "#F7E37C"
+          },
+          {
+            "name": "浅紫藤",
+            "hex": "#B8A7D9"
+          }
+        ],
+        "avoid": [
+          {
+            "name": "纯黑",
+            "hex": "#000000"
+          },
+          {
+            "name": "深酒红",
+            "hex": "#722F37"
+          },
+          {
+            "name": "暗橄榄",
+            "hex": "#556B2F"
+          }
+        ]
+      },
+      "makeup": {
+        "lip": [
+          "蜜桃粉",
+          "浅珊瑚",
+          "透明西柚"
+        ],
+        "eye": [
+          "浅金棕",
+          "香槟",
+          "柔暖棕"
+        ],
+        "blush": [
+          "浅桃",
+          "杏粉"
+        ],
+        "foundation": "明亮中性偏暖或浅黄调，避免灰粉调"
+      },
+      "style_tip": "贴脸颜色保持浅亮清透，深色只作小面积线条或配饰。",
+      "aliases": [
+        "浅暖型",
+        "Light Spring"
+      ],
+      "palette_character": "浅、亮、轻、微暖；比暖春更淡，比浅夏更暖更活。",
+      "skin_clues": [
+        "整体对比度偏低到中等，五官线条柔和。",
+        "肤色常见奶油、蜜桃、浅金或中性偏暖感。",
+        "深色和厚重色贴脸会显得脸被压暗。"
+      ],
+      "draping_effects": {
+        "best": "浅杏、蜜桃、清水蓝、嫩黄会让肤色更通透。",
+        "avoid": "黑、深棕、酒红会让脸显沉，过灰色会显没气色。"
+      },
+      "self_test": {
+        "positive": [
+          "浅色比深色更显精神。",
+          "暖白、奶油白比雪白自然。",
+          "浅珊瑚和蜜桃色比砖红更日常。"
+        ],
+        "negative": [
+          "大面积黑色显脸小但气色差。",
+          "厚重大地色显成熟或疲惫。",
+          "冷灰粉会让皮肤发灰。"
+        ]
+      },
+      "confused_with": [
+        "warm_spring",
+        "light_summer"
+      ]
+    },
+    {
+      "id": "light_summer",
+      "name": "浅夏",
+      "name_en": "Light Summer",
+      "parent": "summer",
+      "dimensions": {
+        "undertone": "cool",
+        "brightness": "high",
+        "saturation": "low-medium"
+      },
+      "description": "明度高、偏冷、轻盈的夏型，肤色常显清透柔白，适合浅冷、干净但不过分艳的颜色。",
+      "colors": {
+        "best": [
+          {
+            "name": "珍珠白",
+            "hex": "#F4F2F0"
+          },
+          {
+            "name": "樱花粉",
+            "hex": "#F7B7C8"
+          },
+          {
+            "name": "冷粉",
+            "hex": "#EFA4B8"
+          },
+          {
+            "name": "浅薰衣草",
+            "hex": "#B9ADD8"
+          },
+          {
+            "name": "粉蓝",
+            "hex": "#9CC7E4"
+          },
+          {
+            "name": "水蓝",
+            "hex": "#7DB7D8"
+          },
+          {
+            "name": "薄荷蓝绿",
+            "hex": "#80C9BE"
+          },
+          {
+            "name": "柔柠黄",
+            "hex": "#F1DF7A"
+          }
+        ],
+        "avoid": [
+          {
+            "name": "纯黑",
+            "hex": "#000000"
+          },
+          {
+            "name": "南瓜橙",
+            "hex": "#FF7518"
+          },
+          {
+            "name": "深橄榄",
+            "hex": "#4A4A20"
+          }
+        ]
+      },
+      "makeup": {
+        "lip": [
+          "樱花粉",
+          "浅玫瑰",
+          "冷粉豆沙"
+        ],
+        "eye": [
+          "浅灰棕",
+          "珍珠灰",
+          "淡紫灰"
+        ],
+        "blush": [
+          "冷粉",
+          "浅玫瑰"
+        ],
+        "foundation": "明亮中性偏冷或粉调，保持轻薄通透"
+      },
+      "style_tip": "用浅冷色做主色，避免深重黑白对比；灰、白、蓝粉紫都要选轻盈版本。",
+      "aliases": [
+        "浅冷型",
+        "Light Summer"
+      ],
+      "palette_character": "浅、冷、轻、清；比浅春更冷，比冷夏更淡。",
+      "skin_clues": [
+        "整体对比度偏低到中等，五官柔和清淡。",
+        "适合浅蓝、浅粉、薰衣草、珍珠灰。",
+        "深色、土色或过艳色贴脸会显疲惫或突兀。"
+      ],
+      "draping_effects": {
+        "best": "浅粉、粉蓝、浅紫、珍珠灰会让脸色柔亮。",
+        "avoid": "黑、深酒红、橄榄绿、橘色会压暗脸色。"
+      },
+      "self_test": {
+        "positive": [
+          "浅冷色比深冷色更显精神。",
+          "银饰比黄金更轻盈。",
+          "浅玫瑰口红比正红更像自己。"
+        ],
+        "negative": [
+          "大红大黑显戏剧化。",
+          "驼色和棕橙显黄。",
+          "高饱和荧光色显突兀。"
+        ]
+      },
+      "confused_with": [
+        "light_spring",
+        "cool_summer"
+      ]
+    },
+    {
+      "id": "soft_summer",
+      "name": "柔夏",
+      "name_en": "Soft Summer",
+      "parent": "summer",
+      "dimensions": {
+        "undertone": "cool",
+        "brightness": "medium",
+        "saturation": "low"
+      },
+      "description": "柔和、偏冷、低饱和的夏型，肤色常带雾面粉灰感，适合灰调粉彩和莫兰迪色。",
+      "colors": {
+        "best": [
+          {
+            "name": "莫兰迪粉",
+            "hex": "#C9A9A6"
+          },
+          {
+            "name": "雾霾蓝",
+            "hex": "#8FA3B1"
+          },
+          {
+            "name": "灰紫",
+            "hex": "#B0A0C0"
+          },
+          {
+            "name": "浅灰绿",
+            "hex": "#A8B8A8"
+          },
+          {
+            "name": "烟灰",
+            "hex": "#C0BEC0"
+          },
+          {
+            "name": "藕粉",
+            "hex": "#DEB4B4"
+          },
+          {
+            "name": "浅蓝灰",
+            "hex": "#B0C4D8"
+          },
+          {
+            "name": "灰白",
+            "hex": "#F0EEF0"
+          }
+        ],
+        "avoid": [
+          {
+            "name": "亮橙",
+            "hex": "#FF6600"
+          },
+          {
+            "name": "金黄",
+            "hex": "#FFD700"
+          },
+          {
+            "name": "纯黑",
+            "hex": "#000000"
+          }
+        ]
+      },
+      "makeup": {
+        "lip": [
+          "裸粉",
+          "玫瑰豆沙",
+          "灰粉"
+        ],
+        "eye": [
+          "灰棕",
+          "浅紫灰",
+          "烟灰"
+        ],
+        "blush": [
+          "冷粉",
+          "灰玫瑰"
+        ],
+        "foundation": "冷调粉底，避免黄调"
+      },
+      "style_tip": "银饰比金饰更显气质，全身同色系搭配最安全",
+      "aliases": [
+        "柔夏",
+        "柔冷型",
+        "Soft Summer"
+      ],
+      "palette_character": "冷、柔、灰、低对比，颜色像被加了一层雾。",
+      "skin_clues": [
+        "整体对比低，五官边界柔和。",
+        "肤色可能偏粉、冷黄或橄榄，但共同点是被强色抢走气色。",
+        "过亮、过暖、过黑都会让脸显脏或显硬。"
+      ],
+      "draping_effects": {
+        "best": "灰粉、雾蓝、鼠尾草绿、灰紫让脸安静细腻。",
+        "avoid": "荧光色、橘色、纯黑会放大瑕疵。"
+      },
+      "self_test": {
+        "positive": [
+          "低饱和灰调比高饱和色更高级。",
+          "银饰、雾面金属比亮黄金自然。",
+          "豆沙、灰玫瑰口红比正红更顺。"
+        ],
+        "negative": [
+          "亮橙显黄。",
+          "黑白强对比显突兀。",
+          "鲜艳玫红会只看见颜色不看见人。"
+        ]
+      },
+      "confused_with": [
+        "soft_autumn",
+        "cool_summer"
+      ]
+    },
+    {
+      "id": "cool_summer",
+      "name": "冷夏",
+      "name_en": "Cool Summer",
+      "parent": "summer",
+      "dimensions": {
+        "undertone": "cool",
+        "brightness": "medium",
+        "saturation": "medium"
+      },
+      "description": "冷度明确、柔和中等明度的夏型，粉蓝粉紫系最衬肤色，适合冷而不刺眼的颜色。",
+      "colors": {
+        "best": [
+          {
+            "name": "薰衣草紫",
+            "hex": "#C8A2C8"
+          },
+          {
+            "name": "冰蓝",
+            "hex": "#99C5C4"
+          },
+          {
+            "name": "玫瑰粉",
+            "hex": "#E8A0BF"
+          },
+          {
+            "name": "冷白",
+            "hex": "#F8F8FF"
+          },
+          {
+            "name": "粉紫",
+            "hex": "#D8B4D8"
+          },
+          {
+            "name": "水蓝",
+            "hex": "#AEC6CF"
+          },
+          {
+            "name": "冷灰",
+            "hex": "#C0C0C8"
+          },
+          {
+            "name": "浅玫红",
+            "hex": "#E88080"
+          }
+        ],
+        "avoid": [
+          {
+            "name": "暖橙",
+            "hex": "#FFA500"
+          },
+          {
+            "name": "芥末黄",
+            "hex": "#CABC07"
+          },
+          {
+            "name": "棕色",
+            "hex": "#8B4513"
+          }
+        ]
+      },
+      "makeup": {
+        "lip": [
+          "冷玫瑰",
+          "覆盆子",
+          "浅紫红"
+        ],
+        "eye": [
+          "灰蓝",
+          "紫灰",
+          "冷棕"
+        ],
+        "blush": [
+          "冷玫瑰",
+          "浅紫粉"
+        ],
+        "foundation": "冷调偏粉，高保湿"
+      },
+      "style_tip": "避免暖金属，铂金/白金/银色首饰最搭",
+      "aliases": [
+        "冷夏",
+        "冷柔型",
+        "True Summer"
+      ],
+      "palette_character": "冷、柔、中明度，清凉但不高冲击。",
+      "skin_clues": [
+        "肤色常带粉、蓝、冷黄或轻微橄榄感。",
+        "适合银饰，暖金贴脸常显黄。",
+        "比冷冬更柔，不适合过强黑白对比。"
+      ],
+      "draping_effects": {
+        "best": "薰衣草、冰蓝、玫瑰粉、冷灰能让肤色干净。",
+        "avoid": "橘、芥末黄、暖棕让脸显黄显暗。"
+      },
+      "self_test": {
+        "positive": [
+          "粉紫和蓝粉比橘粉更显白。",
+          "冷白、银灰比米白更清爽。",
+          "灰蓝眼影或冷棕眼影比金棕自然。"
+        ],
+        "negative": [
+          "南瓜橙显脸黄。",
+          "金色首饰显土。",
+          "纯黑太重时会压住五官。"
+        ]
+      },
+      "confused_with": [
+        "soft_summer",
+        "cool_winter"
+      ]
+    },
+    {
+      "id": "soft_autumn",
+      "name": "柔秋",
+      "name_en": "Soft Autumn",
+      "parent": "autumn",
+      "dimensions": {
+        "undertone": "warm",
+        "brightness": "medium",
+        "saturation": "low"
+      },
+      "description": "柔和、偏暖、低饱和的秋型，肤色常有米黄、金灰或橄榄感，适合雾面大地色。",
+      "colors": {
+        "best": [
+          {
+            "name": "燕麦色",
+            "hex": "#D4C5A9"
+          },
+          {
+            "name": "灰绿",
+            "hex": "#8C9E8C"
+          },
+          {
+            "name": "浅砖红",
+            "hex": "#C4846C"
+          },
+          {
+            "name": "暖灰",
+            "hex": "#B8B0A8"
+          },
+          {
+            "name": "茶色",
+            "hex": "#B5956A"
+          },
+          {
+            "name": "豆绿",
+            "hex": "#A0B080"
+          },
+          {
+            "name": "浅焦糖",
+            "hex": "#C8986C"
+          },
+          {
+            "name": "藕灰",
+            "hex": "#C0B0B0"
+          }
+        ],
+        "avoid": [
+          {
+            "name": "纯黑",
+            "hex": "#000000"
+          },
+          {
+            "name": "亮粉",
+            "hex": "#FF69B4"
+          },
+          {
+            "name": "冰蓝",
+            "hex": "#99C5C4"
+          }
+        ]
+      },
+      "makeup": {
+        "lip": [
+          "豆沙",
+          "裸棕",
+          "浅砖红"
+        ],
+        "eye": [
+          "浅棕",
+          "暖橄榄",
+          "大地色"
+        ],
+        "blush": [
+          "裸橘",
+          "暖裸粉"
+        ],
+        "foundation": "暖调哑光，自然黄调"
+      },
+      "style_tip": "避免高对比度搭配，同色系深浅层叠最和谐",
+      "aliases": [
+        "柔秋",
+        "柔暖型",
+        "Soft Autumn"
+      ],
+      "palette_character": "暖、柔、灰、低对比，像燕麦、鼠尾草、茶色。",
+      "skin_clues": [
+        "整体对比低，发肤瞳融合感强。",
+        "适合哑光质地，亮闪和强对比容易显突兀。",
+        "冷灰过多会显病气，亮橙又会太吵。"
+      ],
+      "draping_effects": {
+        "best": "燕麦、灰绿、茶棕、浅砖红让肤色稳定。",
+        "avoid": "纯黑、冰蓝、亮粉会让肤色发灰或显脏。"
+      },
+      "self_test": {
+        "positive": [
+          "低饱和暖色比鲜艳暖色更自然。",
+          "哑光裸棕、豆沙、浅砖红很顺。",
+          "旧金、香槟金比亮黄金更稳。"
+        ],
+        "negative": [
+          "冷粉显灰。",
+          "亮橘显廉价或上火。",
+          "黑白强对比显硬。"
+        ]
+      },
+      "confused_with": [
+        "soft_summer",
+        "warm_autumn"
+      ]
+    },
+    {
+      "id": "warm_autumn",
+      "name": "暖秋",
+      "name_en": "Warm Autumn",
+      "parent": "autumn",
+      "dimensions": {
+        "undertone": "warm",
+        "brightness": "medium-low",
+        "saturation": "medium"
+      },
+      "description": "暖度最明确的秋型，肤色多有金棕、蜜糖或橄榄暖感，适合浓郁但不荧光的大地色。",
+      "colors": {
+        "best": [
+          {
+            "name": "焦糖",
+            "hex": "#C68642"
+          },
+          {
+            "name": "芥末黄",
+            "hex": "#CABC07"
+          },
+          {
+            "name": "橄榄绿",
+            "hex": "#808000"
+          },
+          {
+            "name": "砖红",
+            "hex": "#CB4154"
+          },
+          {
+            "name": "南瓜橙",
+            "hex": "#FF7518"
+          },
+          {
+            "name": "深驼",
+            "hex": "#A0785A"
+          },
+          {
+            "name": "铁锈红",
+            "hex": "#B7410E"
+          },
+          {
+            "name": "苔绿",
+            "hex": "#6B7A4B"
+          }
+        ],
+        "avoid": [
+          {
+            "name": "粉蓝",
+            "hex": "#AEC6CF"
+          },
+          {
+            "name": "薰衣草",
+            "hex": "#C8A2C8"
+          },
+          {
+            "name": "纯白",
+            "hex": "#FFFFFF"
+          }
+        ]
+      },
+      "makeup": {
+        "lip": [
+          "砖红",
+          "铜棕",
+          "暖橘红"
+        ],
+        "eye": [
+          "铜金",
+          "深棕",
+          "橄榄棕"
+        ],
+        "blush": [
+          "暖橘",
+          "砖橘"
+        ],
+        "foundation": "深暖调，金棕色系"
+      },
+      "style_tip": "黄金饰品最显肤色，避免银色系金属",
+      "aliases": [
+        "暖秋",
+        "暖柔型",
+        "True Autumn"
+      ],
+      "palette_character": "暖、醇厚、中低明度，像焦糖、南瓜、橄榄、铁锈。",
+      "skin_clues": [
+        "整体成熟、温暖、厚实。",
+        "暖棕发色、琥珀感瞳色或金调肤色常见。",
+        "冷色贴脸容易显青、显灰或显脏。"
+      ],
+      "draping_effects": {
+        "best": "焦糖、芥末黄、南瓜橙、橄榄绿让肤色有光泽。",
+        "avoid": "冰蓝、薰衣草、冷粉和纯白会让脸显灰。"
+      },
+      "self_test": {
+        "positive": [
+          "砖红、铁锈红比正玫红自然。",
+          "米白、奶油白比雪白更好。",
+          "黄金、古铜、玳瑁很衬肤色。"
+        ],
+        "negative": [
+          "银灰显冷硬。",
+          "粉蓝显没血色。",
+          "纯黑贴脸沉重。"
+        ]
+      },
+      "confused_with": [
+        "warm_spring",
+        "deep_autumn",
+        "soft_autumn"
+      ]
+    },
+    {
+      "id": "deep_autumn",
+      "name": "深秋",
+      "name_en": "Deep Autumn",
+      "parent": "autumn",
+      "dimensions": {
+        "undertone": "warm",
+        "brightness": "low",
+        "saturation": "medium-high"
+      },
+      "description": "深、暖、浓郁的秋型，通常发肤瞳对比较强，能驾驭深暖色和暗宝石色。",
+      "colors": {
+        "best": [
+          {
+            "name": "酒红",
+            "hex": "#722F37"
+          },
+          {
+            "name": "深棕",
+            "hex": "#5C3317"
+          },
+          {
+            "name": "墨绿",
+            "hex": "#2D4A22"
+          },
+          {
+            "name": "深橄榄",
+            "hex": "#4A4A20"
+          },
+          {
+            "name": "深铁锈",
+            "hex": "#8B3A3A"
+          },
+          {
+            "name": "深焦糖",
+            "hex": "#8B5E3C"
+          },
+          {
+            "name": "深紫棕",
+            "hex": "#5C3A4A"
+          },
+          {
+            "name": "暗金",
+            "hex": "#8B7536"
+          }
+        ],
+        "avoid": [
+          {
+            "name": "浅粉",
+            "hex": "#FFD1DC"
+          },
+          {
+            "name": "薄荷绿",
+            "hex": "#B5D5C5"
+          },
+          {
+            "name": "冰蓝",
+            "hex": "#99C5C4"
+          }
+        ]
+      },
+      "makeup": {
+        "lip": [
+          "深酒红",
+          "暗棕红",
+          "深砖红"
+        ],
+        "eye": [
+          "深棕",
+          "铜绿",
+          "烟熏棕"
+        ],
+        "blush": [
+          "深橘棕",
+          "暗砖红"
+        ],
+        "foundation": "深暖调，全覆盖"
+      },
+      "style_tip": "深色系可以全身驾驭，浅色作点缀而非主色",
+      "aliases": [
+        "深秋",
+        "深暖型",
+        "Dark Autumn"
+      ],
+      "palette_character": "深、暖、浓、低亮度，带秋冬交界的厚重感。",
+      "skin_clues": [
+        "眼发颜色较深，五官存在感强。",
+        "肤色可能不浅，但深暖色能让脸更稳、更有气场。",
+        "浅粉、薄荷、冰蓝会让脸漂或显灰。"
+      ],
+      "draping_effects": {
+        "best": "深橄榄、墨绿、酒红、深焦糖会让五官更集中。",
+        "avoid": "浅冷粉、薄荷、冰蓝会让人显疲惫。"
+      },
+      "self_test": {
+        "positive": [
+          "深棕比纯黑更自然。",
+          "酒红、深砖红比浅粉更提气。",
+          "浓郁大地色比浅淡色更有存在感。"
+        ],
+        "negative": [
+          "浅色贴脸显轻飘。",
+          "冷白显割裂。",
+          "荧光冷色显突兀。"
+        ]
+      },
+      "confused_with": [
+        "deep_winter",
+        "warm_autumn"
+      ]
+    },
+    {
+      "id": "cool_winter",
+      "name": "冷冬",
+      "name_en": "Cool Winter",
+      "parent": "winter",
+      "dimensions": {
+        "undertone": "cool",
+        "brightness": "medium",
+        "saturation": "medium-high"
+      },
+      "description": "冷度最明确的冬型，适合冷、清、对比强的颜色；比净冬少一点艳度，比冷夏更有力度。",
+      "colors": {
+        "best": [
+          {
+            "name": "宝蓝",
+            "hex": "#0038A8"
+          },
+          {
+            "name": "冷玫红",
+            "hex": "#E8006A"
+          },
+          {
+            "name": "冰紫",
+            "hex": "#9B59B6"
+          },
+          {
+            "name": "冷白",
+            "hex": "#F0F0FF"
+          },
+          {
+            "name": "钢蓝",
+            "hex": "#4682B4"
+          },
+          {
+            "name": "冷粉紫",
+            "hex": "#C880C0"
+          },
+          {
+            "name": "深海蓝",
+            "hex": "#003366"
+          },
+          {
+            "name": "银灰",
+            "hex": "#A8A8B8"
+          }
+        ],
+        "avoid": [
+          {
+            "name": "暖橙",
+            "hex": "#FFA500"
+          },
+          {
+            "name": "暖棕",
+            "hex": "#8B6914"
+          },
+          {
+            "name": "芥末黄",
+            "hex": "#CABC07"
+          }
+        ]
+      },
+      "makeup": {
+        "lip": [
+          "冷玫红",
+          "浆果色",
+          "冷紫红"
+        ],
+        "eye": [
+          "银灰",
+          "深蓝",
+          "冷紫"
+        ],
+        "blush": [
+          "冷玫瑰",
+          "浅紫粉"
+        ],
+        "foundation": "冷调偏白，持妆哑光"
+      },
+      "style_tip": "黑白对比是最强武器，银饰铂金最佳",
+      "aliases": [
+        "冷冬",
+        "冷亮型",
+        "True Winter"
+      ],
+      "palette_character": "冷、清、对比强，中高饱和，蓝粉紫和黑白灰表现好。",
+      "skin_clues": [
+        "肤色可能是冷白、粉调、冷黄或橄榄冷调。",
+        "黑发深瞳、五官边界清晰较常见。",
+        "暖色几乎不贴脸，尤其橘棕会显脏。"
+      ],
+      "draping_effects": {
+        "best": "冷白、宝蓝、冷玫红、冰紫让肤色清透有精神。",
+        "avoid": "暖橙、焦糖、芥末黄让脸发黄发暗。"
+      },
+      "self_test": {
+        "positive": [
+          "银饰、白金比黄金更干净。",
+          "黑白配比米棕配更精神。",
+          "冷玫红比砖红更显气色。"
+        ],
+        "negative": [
+          "橘调口红显土。",
+          "驼色贴脸显脸脏。",
+          "柔灰色过多会显没精神。"
+        ]
+      },
+      "confused_with": [
+        "cool_summer",
+        "bright_winter",
+        "deep_winter"
+      ]
+    },
+    {
+      "id": "deep_winter",
+      "name": "深冬",
+      "name_en": "Deep Winter",
+      "parent": "winter",
+      "dimensions": {
+        "undertone": "cool",
+        "brightness": "low",
+        "saturation": "high"
+      },
+      "description": "深、冷、高对比的冬型，能驾驭纯黑、冷白和深宝石色，气场集中。",
+      "colors": {
+        "best": [
+          {
+            "name": "纯黑",
+            "hex": "#000000"
+          },
+          {
+            "name": "正红",
+            "hex": "#CC0000"
+          },
+          {
+            "name": "深宝蓝",
+            "hex": "#00008B"
+          },
+          {
+            "name": "祖母绿",
+            "hex": "#006400"
+          },
+          {
+            "name": "深紫",
+            "hex": "#4B0082"
+          },
+          {
+            "name": "冷白",
+            "hex": "#FFFFFF"
+          },
+          {
+            "name": "深酒红",
+            "hex": "#5C0120"
+          },
+          {
+            "name": "冷黑棕",
+            "hex": "#2C2040"
+          }
+        ],
+        "avoid": [
+          {
+            "name": "米白",
+            "hex": "#FFFDD0"
+          },
+          {
+            "name": "驼色",
+            "hex": "#C19A6B"
+          },
+          {
+            "name": "浅橘",
+            "hex": "#FAC898"
+          }
+        ]
+      },
+      "makeup": {
+        "lip": [
+          "正红",
+          "深酒红",
+          "冷玫红"
+        ],
+        "eye": [
+          "烟熏黑",
+          "深蓝",
+          "深紫"
+        ],
+        "blush": [
+          "冷玫瑰",
+          "深玫红"
+        ],
+        "foundation": "冷调或中性偏冷，高遮瑕"
+      },
+      "style_tip": "高对比是核心，避免中间调和浑浊色显沉。",
+      "aliases": [
+        "深冬",
+        "深冷型",
+        "Dark Winter"
+      ],
+      "palette_character": "深、冷、强对比，颜色可以浓但要干净。",
+      "skin_clues": [
+        "发色瞳色深，眉眼存在感强。",
+        "深色贴脸不压人，反而让脸更清晰。",
+        "浅淡米色、粉雾色会让气场变弱。"
+      ],
+      "draping_effects": {
+        "best": "黑、冷白、深宝蓝、祖母绿、深酒红让五官更立体。",
+        "avoid": "驼色、米白、浅橘让脸发黄或显旧。"
+      },
+      "self_test": {
+        "positive": [
+          "黑色贴脸很稳。",
+          "深冷红比浅裸色更提气。",
+          "高对比搭配比同色柔搭更精神。"
+        ],
+        "negative": [
+          "浅粉显寡淡。",
+          "暖棕显脏。",
+          "低对比莫兰迪色显没气场。"
+        ]
+      },
+      "confused_with": [
+        "deep_autumn",
+        "cool_winter"
+      ]
+    },
+    {
+      "id": "bright_winter",
+      "name": "净冬",
+      "name_en": "Bright Winter",
+      "parent": "winter",
+      "dimensions": {
+        "undertone": "cool",
+        "brightness": "high",
+        "saturation": "high"
+      },
+      "description": "最清亮、最高饱和的冬型，冷感强但可少量容纳明亮暖色点缀，适合鲜艳、干净、高对比色。",
+      "colors": {
+        "best": [
+          {
+            "name": "冰粉",
+            "hex": "#FF69B4"
+          },
+          {
+            "name": "电光蓝",
+            "hex": "#0080FF"
+          },
+          {
+            "name": "冷柠黄",
+            "hex": "#FFFF66"
+          },
+          {
+            "name": "薄荷绿",
+            "hex": "#00FF7F"
+          },
+          {
+            "name": "纯白",
+            "hex": "#FFFFFF"
+          },
+          {
+            "name": "亮玫红",
+            "hex": "#FF007F"
+          },
+          {
+            "name": "冷天蓝",
+            "hex": "#00BFFF"
+          },
+          {
+            "name": "银白",
+            "hex": "#E8E8F0"
+          }
+        ],
+        "avoid": [
+          {
+            "name": "暖橘",
+            "hex": "#FF8C00"
+          },
+          {
+            "name": "驼棕",
+            "hex": "#C19A6B"
+          },
+          {
+            "name": "暗沉橄榄",
+            "hex": "#6B6B20"
+          }
+        ]
+      },
+      "makeup": {
+        "lip": [
+          "亮玫红",
+          "冷正红",
+          "冰粉"
+        ],
+        "eye": [
+          "冰蓝",
+          "银白",
+          "冷粉紫"
+        ],
+        "blush": [
+          "冷粉",
+          "亮玫瑰"
+        ],
+        "foundation": "冷调偏白，带光泽感"
+      },
+      "style_tip": "饱和度要高，避免哑光低调色，金属感单品很加分",
+      "aliases": [
+        "亮冬",
+        "净冷型",
+        "Clear Winter",
+        "Bright Winter"
+      ],
+      "palette_character": "清、亮、艳、冷，高冲击力；比冷冬更艳，比净春更冷。",
+      "skin_clues": [
+        "眼神亮、五官清晰，整体对比高。",
+        "肤色可能冷白、冷黄或橄榄，但需要干净鲜明的颜色提亮。",
+        "柔和灰浊色会让脸突然失焦。"
+      ],
+      "draping_effects": {
+        "best": "电光蓝、亮玫红、冰粉、纯白会让肤色像开灯。",
+        "avoid": "驼棕、暗橄榄、雾灰会让人显旧显闷。"
+      },
+      "self_test": {
+        "positive": [
+          "亮玫红、冷正红比豆沙更显精神。",
+          "纯白比米白清爽。",
+          "黑白加亮色点缀很出彩。"
+        ],
+        "negative": [
+          "柔夏色显灰。",
+          "秋季大地色显脏。",
+          "低饱和裸色显没气色。"
+        ]
+      },
+      "confused_with": [
+        "bright_spring",
+        "cool_winter"
+      ]
+    }
+  ],
+  "detection_logic": {
+    "test_environment": {
+      "light": "白天自然光，避免黄光、美颜滤镜、强反光背景。",
+      "face": "尽量素颜或低遮瑕，头发离开脸侧，露出颈部和锁骨附近肤色。",
+      "method": "同一位置连续对比色布或衣物，观察脸是否变亮、变灰、变黄、显瑕疵或五官变清晰。"
+    },
+    "step1_undertone": {
+      "warm": "暖色让肤色更均匀、更有血色；冷色容易显青、显灰或显僵。常见反应是奶油白胜过冷白，金饰胜过银饰。",
+      "cool": "冷色让肤色更干净、更清透；暖色容易显黄、显脏或显土。常见反应是冷白/银灰胜过米白/驼色，银饰胜过金饰。",
+      "neutral": "冷暖都能穿一部分时，继续看明度、饱和度和清浊；不要只靠血管颜色定型。"
+    },
+    "step2_value_contrast": {
+      "light": "浅色比深色更衬，深色贴脸压暗或显重，优先考虑浅春/浅夏。",
+      "medium": "中等明度最稳，过深或过浅都不如适中颜色自然。",
+      "deep": "深色贴脸不压人，反而让五官更清晰，优先考虑深秋/深冬。",
+      "high_contrast": "黑白、深浅强对比让人更精神，常见于冬型和净型。",
+      "low_contrast": "同色系、低对比更和谐，常见于柔型和浅型。"
+    },
+    "step3_chroma_clarity": {
+      "bright": "鲜艳清亮色让脸发光，灰浊色显脏或失焦，优先考虑净春/净冬。",
+      "soft": "灰调低饱和色更高级，高饱和色抢脸或显廉价，优先考虑柔夏/柔秋。",
+      "true_temperature": "如果冷暖影响最大，而明暗清浊不是第一矛盾，优先考虑暖春/暖秋或冷夏/冷冬。"
+    },
+    "quick_questions": [
+      {
+        "id": "white_test",
+        "question": "冷白、奶油白、米白三者贴脸，哪一个最让脸干净有精神？",
+        "signals": {
+          "cool": "冷白",
+          "warm": "奶油白或米白",
+          "soft": "灰白或柔白"
+        }
+      },
+      {
+        "id": "orange_pink_test",
+        "question": "橘色和玫粉贴脸，哪一个更显气色而不是显黄/显脏？",
+        "signals": {
+          "warm": "橘色",
+          "cool": "玫粉",
+          "bright": "高饱和版本",
+          "soft": "灰粉或柔橘"
+        }
+      },
+      {
+        "id": "black_test",
+        "question": "纯黑贴脸是显精神、显硬，还是压暗？",
+        "signals": {
+          "winter": "显精神",
+          "summer": "偏硬但可小面积",
+          "spring": "压暗或显重",
+          "autumn": "不如深棕自然"
+        }
+      },
+      {
+        "id": "gray_brown_test",
+        "question": "灰蓝和焦糖棕贴脸，哪一个更让肤色均匀？",
+        "signals": {
+          "cool": "灰蓝",
+          "warm": "焦糖棕",
+          "soft": "低饱和版本更好",
+          "bright": "两者都可能不如清亮色"
+        }
+      },
+      {
+        "id": "saturation_test",
+        "question": "鲜艳色和莫兰迪色贴脸，哪一个更像人在发光而不是颜色在发光？",
+        "signals": {
+          "bright": "鲜艳色",
+          "soft": "莫兰迪色",
+          "true": "中等饱和最稳"
+        }
+      }
+    ],
+    "scoring_hint": "先判断冷暖，再判断浅/深与对比度，最后判断清亮/柔浊。若答案冲突，以多组贴脸颜色中脸部清晰、肤色均匀、瑕疵变少的反应为准。"
+  },
+  "metadata": {
+    "system": "12-season personal color database",
+    "source_notes": [
+      "豆瓣帖子「十二季型色板汇总」提供了12季型色板、大小名映射和部分讨论判断。",
+      "该帖使用：净冷/净冬、净暖/净春、深冷/深冬、深暖/深秋、冷亮/冷冬、冷柔/冷夏、暖亮/暖春、暖柔/暖秋、浅冷/浅夏、浅暖/浅春、柔冷/柔夏、柔暖/柔秋。",
+      "自测不要只看皮肤白黄或冷黄/橄榄标签，应以颜色贴脸后的气色、清晰度、灰黄感和对比度变化为主。"
+    ]
+  }
+}
