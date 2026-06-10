@@ -388,8 +388,7 @@ video {
 
 .portrait.cutout {
   object-fit: cover;
-  object-position: center 42%;
-  transform: scale(1.16);
+  object-position: center;
 }
 
 .template-img {

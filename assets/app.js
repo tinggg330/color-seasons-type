@@ -300,7 +300,11 @@ async function captureVideoFrame(video) {
   return new Promise((resolve) => canvas.toBlob(resolve, "image/jpeg", 0.92));
 }
 
-async function cropTransparentEdges(blob) {
+const CUTOUT_ALPHA_THRESHOLD = 12;
+const CARD_HOLE_ASPECT_RATIO = 315 / 430;
+const NORMALIZED_CUTOUT_WIDTH = 900;
+
+async function normalizeCutoutForCardHole(blob) {
   const bitmap = await createImageBitmap(blob);
   const canvas = document.createElement("canvas");
   canvas.width = bitmap.width;
@@ -308,15 +312,64 @@ async function cropTransparentEdges(blob) {
   const ctx = canvas.getContext("2d", { willReadFrequently: true });
   ctx.drawImage(bitmap, 0, 0);
   const { data, width, height } = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  const bodyBounds = getAlphaBounds(data, width, height);
+
+  bitmap.close?.();
+  if (!bodyBounds) return blob;
+
+  const bodyW = bodyBounds.maxX - bodyBounds.minX + 1;
+  const bodyH = bodyBounds.maxY - bodyBounds.minY + 1;
+  const upperBounds =
+    getAlphaBounds(data, width, height, {
+      minY: bodyBounds.minY + bodyH * 0.04,
+      maxY: bodyBounds.minY + bodyH * 0.52,
+    }) || bodyBounds;
+
+  const upperW = upperBounds.maxX - upperBounds.minX + 1;
+  const upperH = upperBounds.maxY - upperBounds.minY + 1;
+  const centerX = (upperBounds.minX + upperBounds.maxX) / 2;
+  let sourceW = Math.max(upperW / 0.86, bodyW * 0.58);
+  let sourceH = Math.max(sourceW / CARD_HOLE_ASPECT_RATIO, upperH / 0.82);
+  sourceW = sourceH * CARD_HOLE_ASPECT_RATIO;
+
+  if (sourceW > width) {
+    sourceW = width;
+    sourceH = sourceW / CARD_HOLE_ASPECT_RATIO;
+  }
+  if (sourceH > height) {
+    sourceH = height;
+    sourceW = sourceH * CARD_HOLE_ASPECT_RATIO;
+    if (sourceW > width) {
+      sourceW = width;
+      sourceH = sourceW / CARD_HOLE_ASPECT_RATIO;
+    }
+  }
+
+  const sourceX = clamp(centerX - sourceW / 2, 0, Math.max(0, width - sourceW));
+  const sourceY = clamp(upperBounds.minY - sourceH * 0.1, 0, Math.max(0, height - sourceH));
+  const outputW = NORMALIZED_CUTOUT_WIDTH;
+  const outputH = Math.round(outputW / CARD_HOLE_ASPECT_RATIO);
+
+  const output = document.createElement("canvas");
+  output.width = outputW;
+  output.height = outputH;
+  output.getContext("2d").drawImage(canvas, sourceX, sourceY, sourceW, sourceH, 0, 0, outputW, outputH);
+
+  return new Promise((resolve) => output.toBlob(resolve, "image/png"));
+}
+
+function getAlphaBounds(data, width, height, range = {}) {
+  const startY = Math.max(0, Math.floor(range.minY ?? 0));
+  const endY = Math.min(height - 1, Math.ceil(range.maxY ?? height - 1));
   let minX = width;
   let minY = height;
   let maxX = -1;
   let maxY = -1;
 
-  for (let y = 0; y < height; y += 1) {
+  for (let y = startY; y <= endY; y += 1) {
     for (let x = 0; x < width; x += 1) {
       const alpha = data[(y * width + x) * 4 + 3];
-      if (alpha > 12) {
+      if (alpha > CUTOUT_ALPHA_THRESHOLD) {
         if (x < minX) minX = x;
         if (y < minY) minY = y;
         if (x > maxX) maxX = x;
@@ -325,22 +378,11 @@ async function cropTransparentEdges(blob) {
     }
   }
 
-  bitmap.close?.();
-  if (maxX < minX || maxY < minY) return blob;
+  return maxX < minX || maxY < minY ? null : { minX, minY, maxX, maxY };
+}
 
-  const paddingX = Math.round((maxX - minX + 1) * 0.035);
-  const paddingY = Math.round((maxY - minY + 1) * 0.025);
-  const cropX = Math.max(0, minX - paddingX);
-  const cropY = Math.max(0, minY - paddingY);
-  const cropW = Math.min(width - cropX, maxX - minX + 1 + paddingX * 2);
-  const cropH = Math.min(height - cropY, maxY - minY + 1 + paddingY * 2);
-
-  const output = document.createElement("canvas");
-  output.width = cropW;
-  output.height = cropH;
-  output.getContext("2d").drawImage(canvas, cropX, cropY, cropW, cropH, 0, 0, cropW, cropH);
-
-  return new Promise((resolve) => output.toBlob(resolve, "image/png"));
+function clamp(value, min, max) {
+  return Math.min(max, Math.max(min, value));
 }
 
 function setOriginalImage(blob, preview) {
@@ -368,7 +410,7 @@ async function processPortrait(status, button) {
       throw new Error(payload?.error || "抠像失败");
     }
     const blob = await response.blob();
-    const croppedBlob = await cropTransparentEdges(blob);
+    const croppedBlob = await normalizeCutoutForCardHole(blob);
     revokePortrait();
     state.portraitBlob = croppedBlob;
     state.portraitUrl = URL.createObjectURL(croppedBlob);
