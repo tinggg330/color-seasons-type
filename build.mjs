@@ -7,7 +7,7 @@ const output = path.join(root, "dist");
 
 const staticEntries = [
   "index.html",
-  "app.js",
+  "assets",
   "styles.css",
   "color_seasons.json",
   "color-card-templates",
