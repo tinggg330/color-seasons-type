@@ -4,10 +4,11 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const projectRoot = path.resolve(__dirname, "..");
 const PORT = Number(process.env.PORT || 5173);
 const MAX_UPLOAD_BYTES = 12 * 1024 * 1024;
 
-loadDotEnv(path.join(__dirname, ".env"));
+loadDotEnv(path.join(projectRoot, ".env"));
 
 const mimeTypes = {
   ".html": "text/html; charset=utf-8",
@@ -66,8 +67,8 @@ function loadDotEnv(filePath) {
 
 async function serveStatic(pathname, req, res) {
   const safePath = decodeURIComponent(pathname).replace(/^\/+/, "");
-  const resolved = path.resolve(__dirname, safePath || "index.html");
-  const root = path.resolve(__dirname);
+  const resolved = path.resolve(projectRoot, safePath || "index.html");
+  const root = path.resolve(projectRoot);
 
   if (!resolved.startsWith(root)) {
     sendJson(res, 403, { error: "无权访问该路径" });
