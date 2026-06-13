@@ -139,6 +139,7 @@ const MAKEUP_COLOR_MAP = {
 
 const state = {
   manifest: null,
+  runtimeConfig: {},
   seasons: [],
   stream: null,
   originalBlob: null,
@@ -159,10 +160,12 @@ init();
 
 async function init() {
   try {
-    const [manifest, seasonsData] = await Promise.all([
+    const [runtimeConfig, manifest, seasonsData] = await Promise.all([
+      fetchRuntimeConfig(),
       fetchJson("./color-card-templates/manifest.json"),
       fetchJson("./color_seasons.json"),
     ]);
+    state.runtimeConfig = runtimeConfig;
     state.manifest = manifest;
     state.seasons = seasonsData.seasons || [];
     renderHome();
@@ -175,6 +178,23 @@ async function fetchJson(url) {
   const response = await fetch(url, { cache: "no-store" });
   if (!response.ok) throw new Error(`Failed to load ${url}`);
   return response.json();
+}
+
+async function fetchRuntimeConfig() {
+  try {
+    const response = await fetch("./runtime-config.json", { cache: "no-store" });
+    if (!response.ok) return {};
+    return response.json();
+  } catch {
+    return {};
+  }
+}
+
+function apiUrl(path) {
+  const cleanPath = path.startsWith("/") ? path : `/${path}`;
+  const apiBase = state.runtimeConfig.apiBaseUrl || "";
+  if (!apiBase) return `/api${cleanPath}`;
+  return `${apiBase.replace(/\/+$/, "")}${cleanPath}`;
 }
 
 function renderHome() {
@@ -305,16 +325,16 @@ const CARD_HOLE_ASPECT_RATIO = 315 / 430;
 const NORMALIZED_CUTOUT_WIDTH = 900;
 
 async function normalizeCutoutForCardHole(blob) {
-  const bitmap = await createImageBitmap(blob);
+  const image = await loadDrawableImage(blob);
   const canvas = document.createElement("canvas");
-  canvas.width = bitmap.width;
-  canvas.height = bitmap.height;
+  canvas.width = image.width;
+  canvas.height = image.height;
   const ctx = canvas.getContext("2d", { willReadFrequently: true });
-  ctx.drawImage(bitmap, 0, 0);
+  ctx.drawImage(image.source, 0, 0);
   const { data, width, height } = ctx.getImageData(0, 0, canvas.width, canvas.height);
   const bodyBounds = getAlphaBounds(data, width, height);
 
-  bitmap.close?.();
+  image.close();
   if (!bodyBounds) return blob;
 
   const bodyW = bodyBounds.maxX - bodyBounds.minX + 1;
@@ -355,7 +375,51 @@ async function normalizeCutoutForCardHole(blob) {
   output.height = outputH;
   output.getContext("2d").drawImage(canvas, sourceX, sourceY, sourceW, sourceH, 0, 0, outputW, outputH);
 
-  return new Promise((resolve) => output.toBlob(resolve, "image/png"));
+  return new Promise((resolve, reject) => {
+    output.toBlob((outputBlob) => {
+      if (outputBlob) resolve(outputBlob);
+      else reject(new Error("透明人像处理失败，请重试一次"));
+    }, "image/png");
+  });
+}
+
+async function loadDrawableImage(blob) {
+  if ("createImageBitmap" in window) {
+    try {
+      const bitmap = await createImageBitmap(blob);
+      return {
+        source: bitmap,
+        width: bitmap.width,
+        height: bitmap.height,
+        close: () => bitmap.close?.(),
+      };
+    } catch {
+      // Safari and some in-app browsers can fail to decode Blob images here.
+    }
+  }
+
+  const url = URL.createObjectURL(blob);
+  try {
+    const image = await loadHtmlImage(url);
+    return {
+      source: image,
+      width: image.naturalWidth || image.width,
+      height: image.naturalHeight || image.height,
+      close: () => URL.revokeObjectURL(url),
+    };
+  } catch (error) {
+    URL.revokeObjectURL(url);
+    throw error;
+  }
+}
+
+function loadHtmlImage(url) {
+  return new Promise((resolve, reject) => {
+    const image = new Image();
+    image.onload = () => resolve(image);
+    image.onerror = () => reject(new Error("图片加载失败，请换一张照片重试"));
+    image.src = url;
+  });
 }
 
 function getAlphaBounds(data, width, height, range = {}) {
@@ -404,13 +468,17 @@ async function processPortrait(status, button) {
     const uploadBlob = await prepareUploadImage(state.originalBlob);
     const form = new FormData();
     form.append("image", uploadBlob, "selfie.jpg");
-    const response = await fetch("/api/remove-bg", { method: "POST", body: form });
+    form.append("response", "json");
+    const response = await fetch(apiUrl("/remove-bg"), { method: "POST", body: form });
     if (!response.ok) {
       const payload = await safeJson(response);
       throw new Error(payload?.error || "抠像失败");
     }
-    const blob = await response.blob();
-    const croppedBlob = await normalizeCutoutForCardHole(blob);
+    const blob = await removeBgResponseBlob(response);
+    const croppedBlob = await normalizeCutoutForCardHole(blob).catch((error) => {
+      console.warn("cutout-normalize-failed", error);
+      return blob;
+    });
     revokePortrait();
     state.portraitBlob = croppedBlob;
     state.portraitUrl = URL.createObjectURL(croppedBlob);
@@ -424,19 +492,40 @@ async function processPortrait(status, button) {
   }
 }
 
+async function removeBgResponseBlob(response) {
+  const contentType = response.headers.get("content-type") || "";
+  if (contentType.includes("application/json")) {
+    const payload = await response.json();
+    if (!payload?.imageDataUrl) throw new Error("抠像结果格式不正确");
+    return dataUrlToBlob(payload.imageDataUrl);
+  }
+  return response.blob();
+}
+
+function dataUrlToBlob(dataUrl) {
+  const match = dataUrl.match(/^data:([^;,]+);base64,(.+)$/);
+  if (!match) throw new Error("抠像图片格式不正确");
+  const binary = atob(match[2]);
+  const bytes = new Uint8Array(binary.length);
+  for (let index = 0; index < binary.length; index += 1) {
+    bytes[index] = binary.charCodeAt(index);
+  }
+  return new Blob([bytes], { type: match[1] || "image/png" });
+}
+
 async function prepareUploadImage(blob) {
   if (blob.size <= MAX_API_UPLOAD_BYTES && blob.type === "image/jpeg") return blob;
 
-  const bitmap = await createImageBitmap(blob);
+  const image = await loadDrawableImage(blob);
   const maxSide = 1600;
-  const scale = Math.min(1, maxSide / Math.max(bitmap.width, bitmap.height));
-  const width = Math.max(1, Math.round(bitmap.width * scale));
-  const height = Math.max(1, Math.round(bitmap.height * scale));
+  const scale = Math.min(1, maxSide / Math.max(image.width, image.height));
+  const width = Math.max(1, Math.round(image.width * scale));
+  const height = Math.max(1, Math.round(image.height * scale));
   const canvas = document.createElement("canvas");
   canvas.width = width;
   canvas.height = height;
-  canvas.getContext("2d").drawImage(bitmap, 0, 0, width, height);
-  bitmap.close?.();
+  canvas.getContext("2d").drawImage(image.source, 0, 0, width, height);
+  image.close();
 
   let quality = 0.86;
   let output = await canvasToJpeg(canvas, quality);
@@ -841,8 +930,8 @@ function createReportImageBlob(detail, group) {
     const image = new Image();
     image.onload = () => {
       const canvas = document.createElement("canvas");
-      canvas.width = 1080;
-      canvas.height = 2200;
+      canvas.width = image.naturalWidth || 1080;
+      canvas.height = image.naturalHeight || 2200;
       const ctx = canvas.getContext("2d");
       ctx.drawImage(image, 0, 0);
       URL.revokeObjectURL(url);
@@ -861,87 +950,163 @@ function createReportImageBlob(detail, group) {
 
 function reportImageSvg(detail, group) {
   const width = 1080;
-  const height = 2200;
-  const bestColors = detail.colors.best.slice(0, 12);
-  const avoidColors = detail.colors.avoid.slice(0, 4);
+  const bestColors = detail.colors.best.slice(0, 8);
+  const avoidColors = detail.colors.avoid.slice(0, 3);
   const evidence = detail.skin_clues.slice(0, 3);
-  const lines = [];
-  let y = 0;
+  const foundation = foundationSwatches(detail);
+  const makeupRows = [
+    ["Base", detail.makeup.foundation, foundation],
+    ["Eyes", detail.makeup.eye.join("、"), makeupSwatches(detail.makeup.eye, detail.colors.best)],
+    ["Blush", detail.makeup.blush.join("、"), makeupSwatches(detail.makeup.blush, detail.colors.best)],
+    ["Lips", detail.makeup.lip.join("、"), makeupSwatches(detail.makeup.lip, detail.colors.best)],
+  ];
+  const body = [];
+  const margin = 64;
+  const contentX = 86;
+  const contentW = width - contentX * 2;
+  const border = "#1d1b18";
+  let y = 106;
 
-  const addText = (text, x, nextY, size = 36, weight = 500, color = "#25231f") => {
-    lines.push(`<text x="${x}" y="${nextY}" font-size="${size}" font-weight="${weight}" fill="${color}">${escapeHtml(text)}</text>`);
-    y = nextY;
+  const add = (markup) => body.push(markup);
+  const text = (value, x, textY, size, weight = 500, color = "#171717", family = "sans", anchor = "start") => {
+    const font = family === "serif" ? "Georgia, 'Times New Roman', serif" : "-apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif";
+    add(`<text x="${x}" y="${textY}" font-family="${font}" font-size="${size}" font-weight="${weight}" fill="${color}" text-anchor="${anchor}">${escapeHtml(value)}</text>`);
   };
-  const addWrapped = (text, x, nextY, maxChars, size = 30, lineHeight = 46, color = "#5f5a51", weight = 400) => {
-    let currentY = nextY;
-    for (const line of wrapText(text, maxChars)) {
-      addText(line, x, currentY, size, weight, color);
+  const wrapped = (value, x, textY, maxChars, size = 30, lineHeight = 48, color = "#383632", weight = 400) => {
+    let currentY = textY;
+    for (const line of wrapText(value, maxChars)) {
+      text(line, x, currentY, size, weight, color);
       currentY += lineHeight;
     }
-    y = currentY - lineHeight;
-    return y;
+    return currentY - lineHeight;
+  };
+  const sectionRule = (ruleY) => add(`<line x1="${contentX}" y1="${ruleY}" x2="${contentX + contentW}" y2="${ruleY}" stroke="${border}" stroke-width="2"/>`);
+  const doubleRule = (ruleY) => {
+    add(`<line x1="${contentX}" y1="${ruleY}" x2="${contentX + contentW}" y2="${ruleY}" stroke="${border}" stroke-width="3"/>`);
+    add(`<line x1="${contentX}" y1="${ruleY + 8}" x2="${contentX + contentW}" y2="${ruleY + 8}" stroke="${border}" stroke-width="2"/>`);
   };
 
-  addText("肤色十二季型自测报告", 78, 112, 42, 800, "#b35d4a");
-  addText(detail.name_en, 78, 198, 76, 800, "#171717");
-  addText(`${detail.name} · ${reportMeta(detail)}`, 82, 254, 32, 700, "#716c62");
-  addText(group?.title ? `大季型：${group.title}` : `大季型：${GROUP_LABELS[detail.parent] || detail.parent}`, 82, 306, 30, 600, "#716c62");
+  doubleRule(y);
+  y += 56;
+  add(`<rect x="${contentX}" y="${y}" width="${contentW}" height="218" fill="transparent" stroke="${border}" stroke-width="2"/>`);
+  text("YOUR SKIN COLOR SEASON TYPE", width / 2, y + 62, 27, 700, "#27231f", "serif", "middle");
+  text(detail.name_en, width / 2, y + 138, 76, 500, "#111111", "serif", "middle");
+  add(`<line x1="${contentX + 34}" y1="${y + 170}" x2="${contentX + contentW - 34}" y2="${y + 170}" stroke="${border}" stroke-width="2"/>`);
+  text(detail.name, contentX + 34, y + 204, 23, 500, "#4d4b47");
+  text(reportMeta(detail), width / 2, y + 204, 23, 700, "#4d4b47", "sans", "middle");
+  text("PERSONAL REPORT", contentX + contentW - 34, y + 204, 23, 500, "#4d4b47", "sans", "end");
+  y += 256;
+  doubleRule(y);
+  y += 78;
+
+  text(summaryTitle(detail), contentX, y, 44, 800);
+  y = wrapped(detail.description, contentX, y + 62, 31, 31, 52) + 64;
+  sectionRule(y);
+  y += 2;
 
   const dimensions = [
     ["UNDERTONE", dimensionLabel("undertone", detail.dimensions.undertone)],
     ["VALUE", dimensionLabel("brightness", detail.dimensions.brightness)],
     ["CHROMA", dimensionLabel("saturation", detail.dimensions.saturation)],
   ];
+  const dimensionH = 132;
+  const dimensionW = contentW / 3;
   dimensions.forEach(([label, value], index) => {
-    const x = 78 + index * 316;
-    lines.push(`<rect x="${x}" y="360" width="276" height="128" rx="24" fill="#fffdf8" stroke="#dfd7cb"/>`);
-    addText(label, x + 28, 410, 22, 800, "#b35d4a");
-    addText(value, x + 28, 458, 36, 800, "#25231f");
+    const x = contentX + index * dimensionW;
+    if (index > 0) add(`<line x1="${x}" y1="${y}" x2="${x}" y2="${y + dimensionH}" stroke="${border}" stroke-width="2"/>`);
+    text(label, x + 26, y + 50, 22, 700, "#67625b", "serif");
+    text(value, x + 26, y + 96, 34, 800);
   });
+  y += dimensionH;
+  sectionRule(y);
+  y += 58;
 
-  addText(summaryTitle(detail), 78, 570, 38, 800, "#171717");
-  addWrapped(detail.description, 78, 626, 28, 31, 48, "#5f5a51");
+  const columnStart = y;
+  const columnSplit = contentX + 338;
+  text("Color Temperament", contentX, y, 45, 500, "#171717", "serif");
+  const leftEnd = wrapped(detail.palette_character || detail.description, contentX, y + 64, 17, 31, 52);
+  add(`<line x1="${columnSplit}" y1="${columnStart}" x2="${columnSplit}" y2="${Math.max(leftEnd + 40, columnStart + 176)}" stroke="${border}" stroke-width="2"/>`);
+  text("Keywords", columnSplit + 30, y + 18, 24, 500, "#67625b", "serif");
+  const rightEnd = wrapped(keywordLine(detail), columnSplit + 30, y + 68, 20, 34, 54, "#171717", 800);
+  y = Math.max(leftEnd, rightEnd) + 58;
+  sectionRule(y);
+  y += 64;
 
-  addText("推荐色卡", 78, y + 96, 38, 800, "#171717");
-  let swatchY = y + 128;
+  text("Recommended Palette", contentX, y, 45, 500, "#171717", "serif");
+  text(`${bestColors.length} COLORS`, contentX + contentW, y, 24, 500, "#6a655f", "sans", "end");
+  y += 42;
+  const swatchRowH = 94;
+  add(`<rect x="${contentX}" y="${y}" width="${contentW}" height="${swatchRowH * bestColors.length}" fill="transparent" stroke="${border}" stroke-width="2"/>`);
   bestColors.forEach((color, index) => {
-    const x = 88 + (index % 6) * 154;
-    const rowY = swatchY + Math.floor(index / 6) * 142;
-    lines.push(`<circle cx="${x + 38}" cy="${rowY + 38}" r="38" fill="${escapeHtml(color.hex)}" stroke="#ffffff" stroke-width="8"/>`);
-    addText(color.name, x, rowY + 104, 24, 700, "#25231f");
+    const rowY = y + index * swatchRowH;
+    if (index > 0) add(`<line x1="${contentX}" y1="${rowY}" x2="${contentX + contentW}" y2="${rowY}" stroke="${border}" stroke-width="2"/>`);
+    add(`<rect x="${contentX + 26}" y="${rowY + 21}" width="54" height="54" fill="${escapeHtml(color.hex)}" stroke="#000000" stroke-opacity="0.18" stroke-width="1"/>`);
+    text(color.name, contentX + 104, rowY + 58, 26, 800);
+    text(color.hex.toUpperCase(), contentX + contentW - 28, rowY + 58, 20, 600, "#6a655f", "serif", "end");
   });
-  y = swatchY + 272;
+  y += swatchRowH * bestColors.length + 64;
+  sectionRule(y);
+  y += 64;
 
-  addText("穿搭提示", 78, y + 80, 38, 800, "#171717");
-  addWrapped(wearingNotes(detail, group), 78, y + 136, 29, 30, 46, "#5f5a51");
+  text("Wearing Notes", contentX, y, 45, 500, "#171717", "serif");
+  y = wrapped(wearingNotes(detail, group), contentX, y + 68, 32, 31, 54) + 62;
+  sectionRule(y);
+  y += 64;
 
-  addText("判断依据", 78, y + 92, 38, 800, "#171717");
-  let evidenceY = y + 146;
+  text("Makeup Notes", contentX, y, 45, 500, "#171717", "serif");
+  y += 44;
+  makeupRows.forEach(([label, copy, colors]) => {
+    const rowY = y;
+    add(`<line x1="${contentX}" y1="${rowY}" x2="${contentX + contentW}" y2="${rowY}" stroke="${border}" stroke-opacity="0.32" stroke-width="2"/>`);
+    text(label, contentX, rowY + 52, 27, 500, "#171717", "serif");
+    const copyEnd = wrapped(copy, contentX + 210, rowY + 52, 25, 29, 46);
+    colors.slice(0, 3).forEach((color, index) => {
+      const swatchX = contentX + 210 + index * 54;
+      add(`<rect x="${swatchX}" y="${Math.max(copyEnd + 24, rowY + 92)}" width="54" height="66" fill="${escapeHtml(color)}" stroke="${border}" stroke-width="2"/>`);
+    });
+    y = Math.max(copyEnd + 112, rowY + 174);
+  });
+  sectionRule(y);
+  y += 64;
+
+  text("判断依据", contentX, y, 44, 800);
+  y += 58;
   evidence.forEach((item) => {
-    lines.push(`<circle cx="92" cy="${evidenceY - 10}" r="6" fill="#b35d4a"/>`);
-    evidenceY = addWrapped(item, 118, evidenceY, 29, 28, 42, "#5f5a51") + 52;
+    text("•", contentX + 6, y, 32, 700);
+    y = wrapped(item, contentX + 42, y, 32, 30, 50) + 30;
   });
-  y = evidenceY;
+  y += 18;
+  sectionRule(y);
+  y += 64;
 
-  addText("需要避开的颜色", 78, y + 40, 34, 800, "#171717");
+  text("Colors To Avoid", contentX, y, 45, 500, "#171717", "serif");
+  y += 44;
+  const avoidW = contentW / avoidColors.length;
+  add(`<rect x="${contentX}" y="${y}" width="${contentW}" height="124" fill="transparent" stroke="${border}" stroke-width="2"/>`);
   avoidColors.forEach((color, index) => {
-    const x = 78 + index * 236;
-    const chipY = y + 76;
-    lines.push(`<rect x="${x}" y="${chipY}" width="196" height="68" rx="34" fill="${escapeHtml(color.hex)}"/>`);
-    lines.push(`<text x="${x + 98}" y="${chipY + 43}" font-size="24" font-weight="800" fill="#ffffff" text-anchor="middle">${escapeHtml(color.name)}</text>`);
+    const x = contentX + index * avoidW;
+    if (index > 0) add(`<line x1="${x}" y1="${y}" x2="${x}" y2="${y + 124}" stroke="${border}" stroke-width="2"/>`);
+    add(`<rect x="${x}" y="${y}" width="${avoidW}" height="124" fill="${escapeHtml(color.hex)}"/>`);
+    text(color.name, x + 22, y + 92, 26, 800, index === 1 ? "#26210e" : "#fffdf8");
   });
+  y += 170;
+  text(finalRule(detail), width / 2, y, 42, 800, "#171717", "sans", "middle");
+  y += 80;
 
-  lines.push(`<rect x="78" y="${height - 144}" width="924" height="78" rx="26" fill="#25231f"/>`);
-  addText(finalRule(detail), 124, height - 94, 32, 800, "#fffdf8");
+  const height = Math.ceil(y + margin);
 
   return `
     <svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
+      <defs>
+        <pattern id="report-grid" width="44" height="44" patternUnits="userSpaceOnUse">
+          <line x1="0" y1="0" x2="0" y2="44" stroke="#171717" stroke-opacity="0.04" stroke-width="2"/>
+        </pattern>
+      </defs>
       <rect width="${width}" height="${height}" fill="#f8f6ef"/>
-      <rect x="44" y="44" width="992" height="${height - 88}" rx="42" fill="#fffdf8" stroke="#dfd7cb" stroke-width="3"/>
-      <circle cx="932" cy="122" r="84" fill="#f4dfd5"/>
-      <circle cx="904" cy="178" r="42" fill="#b35d4a" opacity="0.18"/>
-      <g font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif" text-anchor="start">
-        ${lines.join("\n")}
+      <rect width="${width}" height="${height}" fill="url(#report-grid)"/>
+      <rect x="${margin}" y="${margin}" width="${width - margin * 2}" height="${height - margin * 2}" fill="transparent" stroke="#1d1b18" stroke-width="2"/>
+      <g text-anchor="start">
+        ${body.join("\n")}
       </g>
     </svg>
   `;
@@ -992,7 +1157,7 @@ function recordSelection(payload) {
     at: new Date().toISOString(),
   };
   window.__seasonTestSelection = selection;
-  fetch("/api/selection", {
+  fetch(apiUrl("/selection"), {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(selection),

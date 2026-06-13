@@ -11,6 +11,7 @@ const staticEntries = [
   "styles.css",
   "color_seasons.json",
   "color-card-templates",
+  "runtime-config.json",
   "soft_summer_report_demos.html",
   "soft_summer_report_demos.css",
 ];
