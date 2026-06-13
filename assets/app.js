@@ -468,6 +468,7 @@ async function processPortrait(status, button) {
     const uploadBlob = await prepareUploadImage(state.originalBlob);
     const form = new FormData();
     form.append("image", uploadBlob, "selfie.jpg");
+    form.append("response", "json");
     const response = await requestRemoveBg(form);
     if (!response.ok) {
       const payload = await safeJson(response);
@@ -495,35 +496,38 @@ async function removeBgResponseBlob(response) {
   const contentType = getResponseContentType(response);
   if (contentType.includes("application/json")) {
     const payload = await safeJson(response);
-    if (!payload?.imageDataUrl) throw new Error("抠像结果格式不正确");
-    return dataUrlToBlob(payload.imageDataUrl);
+    const imageDataUrl = payload?.imageDataUrl || payload?.image;
+    if (imageDataUrl) return dataUrlToBlob(imageDataUrl);
+    if (payload?.tempFileURL) return fetchBlobFromUrl(payload.tempFileURL);
+    throw new Error("抠像结果格式不正确");
   }
   if (response.bodyBlob instanceof Blob) return response.bodyBlob;
   return response.blob();
 }
 
-function requestRemoveBg(form) {
-  return new Promise((resolve, reject) => {
-    const request = new XMLHttpRequest();
-    request.open("POST", apiUrl("/remove-bg"), true);
-    request.responseType = "arraybuffer";
-    request.timeout = 60000;
-    request.onload = () => {
-      resolve({
-        ok: request.status >= 200 && request.status < 300,
-        status: request.status,
-        contentType: request.getResponseHeader("content-type") || "",
-        bodyBuffer: request.response,
-        bodyBlob: new Blob([request.response || new ArrayBuffer(0)], {
-          type: request.getResponseHeader("content-type") || "application/octet-stream",
-        }),
-      });
+async function requestRemoveBg(form) {
+  const controller = new AbortController();
+  const timeout = window.setTimeout(() => controller.abort(), 60000);
+  try {
+    const response = await fetch(apiUrl("/remove-bg"), {
+      method: "POST",
+      body: form,
+      cache: "no-store",
+      signal: controller.signal,
+    });
+    const bodyBlob = await response.blob();
+    return {
+      ok: response.ok,
+      status: response.status,
+      contentType: response.headers.get("content-type") || "",
+      bodyBlob,
     };
-    request.onerror = () => reject(new Error("Load failed"));
-    request.ontimeout = () => reject(new Error("抠像等待超时，请稍后重试"));
-    request.onabort = () => reject(new Error("抠像请求已取消"));
-    request.send(form);
-  });
+  } catch (error) {
+    if (error.name === "AbortError") throw new Error("抠像等待超时，请稍后重试");
+    throw new Error(error.message || "Load failed");
+  } finally {
+    window.clearTimeout(timeout);
+  }
 }
 
 function getResponseContentType(response) {
@@ -540,6 +544,12 @@ function dataUrlToBlob(dataUrl) {
     bytes[index] = binary.charCodeAt(index);
   }
   return new Blob([bytes], { type: match[1] || "image/png" });
+}
+
+async function fetchBlobFromUrl(url) {
+  const response = await fetch(url, { cache: "no-store" });
+  if (!response.ok) throw new Error("抠像图片下载失败");
+  return response.blob();
 }
 
 async function prepareUploadImage(blob) {

@@ -102,8 +102,10 @@ async function handleRemoveBg(req, res) {
   }
 
   if (wantsJson) {
+    const imageDataUrl = `data:image/png;base64,${responseBuffer.toString("base64")}`;
     sendJson(res, 200, {
-      imageDataUrl: `data:image/png;base64,${responseBuffer.toString("base64")}`,
+      image: imageDataUrl,
+      imageDataUrl,
       bytes: responseBuffer.length,
     });
     return;

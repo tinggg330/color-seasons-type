@@ -224,3 +224,20 @@
 | 2026-06-13 23:36 CST | 代码 | `index.html` | 资源版本号更新到 `20260613-5` | 避免 CloudBase 继续加载 `20260613-4`。 |
 | 2026-06-13 23:37 CST | 部署 | CloudBase 函数与静态托管 | 已更新函数 `colorseason-api`，并上传新版 `dist` 到静态托管根目录 | 未主动调用带图片的 `/remove-bg`，未额外消耗 remove.bg。 |
 | 2026-06-13 23:37 CST | 验证 | CloudBase 线上静态资源 | 首页已加载 `assets/app.js?v=20260613-5`；线上 JS 已确认有 `responseType = "arraybuffer"`，且不再包含 `response", "json"` | 无图片 POST 仅验证错误响应和 CORS，不消耗 remove.bg。 |
+
+## 2026-06-14 00:12 CST 补充：按 CloudBase 响应包装问题改回 JSON Data URL
+
+| 时间 | 类型 | 文件或设置 | 对应内容 | 说明 |
+| --- | --- | --- | --- | --- |
+| 2026-06-14 00:03 CST | 复盘 | CloudBase / Vercel 对照 | 用户补充同事判断：Vercel 正常、CloudBase 函数日志显示 remove.bg 成功，问题大概率在 CloudBase 把 PNG 返回给浏览器的响应包装、响应头或跨域处理 | 认可“不要裸传 Buffer/PNG”的方向；但当前项目是 CloudBase HTTP Function 监听 9000 端口，不是 `exports.main` 事件函数，`return { statusCode, isBase64Encoded }` 结构不直接套用。 |
+| 2026-06-14 00:05 CST | 代码 | `assets/app.js` | 抠像请求重新主动追加 `response=json` | 让 CloudBase 不再直接返回二进制 PNG，改走 JSON Data URL。 |
+| 2026-06-14 00:06 CST | 代码 | `assets/app.js` | `requestRemoveBg()` 从 XHR `arraybuffer` 改为 `fetch()`，60 秒 `AbortController` 超时，统一把响应读成 Blob 再解析 | 避免继续依赖 XHR 二进制接收；对 JSON、PNG、后续云存储链接返回都保留兼容。 |
+| 2026-06-14 00:06 CST | 代码 | `assets/app.js` | `removeBgResponseBlob()` 支持 `imageDataUrl`、`image`、`tempFileURL` 三种字段 | 对齐同事建议里的 `image: data:image/png;base64,...`，同时给下一步云存储链接方案留接口。 |
+| 2026-06-14 00:07 CST | 代码 | `cloudfunctions/colorseason-api/index.mjs` | JSON 响应同时返回 `image` 和 `imageDataUrl` 两个 Data URL 字段，并保留 `bytes` | 不再要求前端只认识单一字段名。 |
+| 2026-06-14 00:07 CST | 代码 | `index.html` | 资源版本号更新为 `20260614-1` | 避免 CloudBase 静态托管缓存旧 JS。 |
+| 2026-06-14 00:09 CST | 验证 | 本地命令 | `node --check assets/app.js`、`node --check cloudfunctions/colorseason-api/index.mjs`、`npm run build` 均通过 | 未调用带图片的 `/remove-bg`，未消耗 remove.bg 次数。 |
+| 2026-06-14 00:10 CST | 部署 | CloudBase 函数 `colorseason-api` | 已通过 MCP 更新函数代码，函数详情显示 `ModTime` 为 `2026-06-14 00:10:54`、状态 `Available` | 只记录环境变量名称是否存在，不记录真实密钥值。 |
+| 2026-06-14 00:11 CST | 部署 | CloudBase 静态托管 | 已上传本地 `dist` 到托管根目录 | 线上访问地址仍为 `https://colorseason-d2gwzkab34f2582ba-1442165714.tcloudbaseapp.com/`。 |
+| 2026-06-14 00:12 CST | 验证 | CloudBase 线上静态资源 | 首页已加载 `styles.css?v=20260614-1` 和 `assets/app.js?v=20260614-1`；线上 JS 已确认包含 `form.append("response", "json")`、`imageDataUrl || image`、`fetchBlobFromUrl()` | 未主动上传测试图片，未消耗 remove.bg 次数。 |
+
+后续如果 `20260614-1` 仍失败，优先不要再在“函数直接返回图片/大 JSON”上反复尝试；下一条更稳路径是：CloudBase 函数拿到 remove.bg PNG 后写入 CloudBase 云存储，只返回一个小 JSON 临时链接，前端再下载该链接为 Blob。
