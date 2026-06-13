@@ -202,9 +202,11 @@ function errorMessageFromRemoveBg(buffer) {
 }
 
 function sendJson(res, status, payload) {
+  const body = JSON.stringify(payload);
   res.writeHead(status, {
     "Content-Type": "application/json; charset=utf-8",
     "Cache-Control": "no-store",
+    "Content-Length": Buffer.byteLength(body),
   });
-  res.end(JSON.stringify(payload));
+  res.end(body);
 }

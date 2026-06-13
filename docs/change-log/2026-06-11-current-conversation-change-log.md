@@ -188,3 +188,28 @@
 
 - 
 ```
+
+## 2026-06-13 17:11 CST 补充：CloudBase remove.bg 返回读取排查
+
+| 时间 | 类型 | 文件或设置 | 对应内容 | 说明 |
+| --- | --- | --- | --- | --- |
+| 2026-06-13 16:54 CST | 排查 | CloudBase 函数日志 `colorseason-api` | 最近失败测试对应日志显示 remove.bg 返回 `status: 200`、`contentType: image/png`、返回字节数约 211KB；函数 `RetCode 0` | 说明问题不是 remove.bg 未返回，也不是 CloudBase 函数崩溃，而是前端接收/解析返回内容阶段失败。未主动上传图片，不额外消耗 remove.bg 次数。 |
+| 2026-06-13 17:11 CST | 代码 | `assets/app.js` | 保留 `response=json`，但把抠像 POST 从 `fetch()` 改为 `XMLHttpRequest`，使用 `responseType="blob"` 接收，再按 `content-type` 解析 JSON 或 PNG | 避免回退到旧的“直接 PNG + fetch blob”方案；重点绕开 Safari / iPhone / 微信内置浏览器中 `fetch` 可能报 `Load failed` 的兼容层。 |
+| 2026-06-13 17:11 CST | 代码 | `index.html` | 静态资源版本号从 `20260613-2` 更新为 `20260613-3` | 避免 CloudBase 长缓存继续加载旧 JS。 |
+| 2026-06-13 17:11 CST | 验证 | 本地命令 | `node --check assets/app.js` 通过；`npm run build` 通过 | 未调用 `/remove-bg`，未消耗 remove.bg 次数。 |
+
+备注：失败提示语本次按用户要求未改。
+
+## 2026-06-13 22:47 CST 补充：remove.bg 返回完整性验证与移动端接收修复
+
+| 时间 | 类型 | 文件或设置 | 对应内容 | 说明 |
+| --- | --- | --- | --- | --- |
+| 2026-06-13 22:41 CST | 排查 | CloudBase `/remove-bg` | 使用公开测试头像调用一次 CloudBase API，返回 `200 OK`、`application/json`，响应大小约 366KB | 本次受控调用预计消耗 1 次 remove.bg；不用用户个人照片。 |
+| 2026-06-13 22:41 CST | 验证 | `/tmp/codex-removebg-response.json` / `/tmp/codex-removebg-output.png` | JSON 可解析，`imageDataUrl` 可还原为 PNG；PNG 为 RGBA，尺寸 433x577，透明像素约 20.3% | 证明 remove.bg 返回不是白底，CloudBase JSON 也未损坏；问题集中在浏览器接收/解析阶段。 |
+| 2026-06-13 22:46 CST | 代码 | `assets/app.js` | 将抠像请求的 XHR `responseType` 从 `blob` 改为 `text`，直接读取 JSON 文本并解析 `imageDataUrl` | 既不回退到直接 PNG，也不再让移动端先接 Blob；更保守兼容 Safari / 微信内置浏览器。 |
+| 2026-06-13 22:46 CST | 代码 | `cloudfunctions/colorseason-api/index.mjs` | `sendJson()` 先生成 JSON 字符串，并补 `Content-Length` | 避免移动 WebView / 网关对 chunked JSON 响应处理不稳定。 |
+| 2026-06-13 22:46 CST | 代码 | `lib/api-shared.js` | Vercel 本地共享 JSON 响应同样补 `Content-Length` | 保持 Vercel API 侧响应行为一致。 |
+| 2026-06-13 22:46 CST | 代码 | `index.html` | 资源版本号更新为 `20260613-4` | 避免 CloudBase 长缓存继续使用旧脚本。 |
+| 2026-06-13 22:47 CST | 部署 | CloudBase 函数 `colorseason-api` | 已通过 MCP 更新函数代码 | 函数端 JSON 响应已包含 `content-length`。 |
+| 2026-06-13 22:47 CST | 部署 | CloudBase 静态托管 | 已上传新版 `dist` 到根目录 | 线上页面已加载 `assets/app.js?v=20260613-4`。 |
+| 2026-06-13 22:47 CST | 验证 | 本地与线上 | `node --check assets/app.js`、`node --check cloudfunctions/colorseason-api/index.mjs`、`node --check lib/api-shared.js`、`npm run build` 均通过；线上 JS 已确认是 `responseType = "text"` | 最后一次接口验证只发无图片请求，不消耗 remove.bg。 |

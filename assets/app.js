@@ -469,7 +469,7 @@ async function processPortrait(status, button) {
     const form = new FormData();
     form.append("image", uploadBlob, "selfie.jpg");
     form.append("response", "json");
-    const response = await fetch(apiUrl("/remove-bg"), { method: "POST", body: form });
+    const response = await requestRemoveBg(form);
     if (!response.ok) {
       const payload = await safeJson(response);
       throw new Error(payload?.error || "抠像失败");
@@ -493,13 +493,40 @@ async function processPortrait(status, button) {
 }
 
 async function removeBgResponseBlob(response) {
-  const contentType = response.headers.get("content-type") || "";
+  const contentType = getResponseContentType(response);
   if (contentType.includes("application/json")) {
-    const payload = await response.json();
+    const payload = await safeJson(response);
     if (!payload?.imageDataUrl) throw new Error("抠像结果格式不正确");
     return dataUrlToBlob(payload.imageDataUrl);
   }
+  if (response.bodyBlob instanceof Blob) return response.bodyBlob;
   return response.blob();
+}
+
+function requestRemoveBg(form) {
+  return new Promise((resolve, reject) => {
+    const request = new XMLHttpRequest();
+    request.open("POST", apiUrl("/remove-bg"), true);
+    request.responseType = "text";
+    request.timeout = 60000;
+    request.onload = () => {
+      resolve({
+        ok: request.status >= 200 && request.status < 300,
+        status: request.status,
+        contentType: request.getResponseHeader("content-type") || "",
+        bodyText: typeof request.response === "string" ? request.response : request.responseText || "",
+      });
+    };
+    request.onerror = () => reject(new Error("Load failed"));
+    request.ontimeout = () => reject(new Error("抠像等待超时，请稍后重试"));
+    request.onabort = () => reject(new Error("抠像请求已取消"));
+    request.send(form);
+  });
+}
+
+function getResponseContentType(response) {
+  if (response.contentType) return response.contentType;
+  return response.headers?.get?.("content-type") || "";
 }
 
 function dataUrlToBlob(dataUrl) {
@@ -1273,10 +1300,26 @@ function revokePortrait() {
 
 async function safeJson(response) {
   try {
+    if (response.bodyBlob instanceof Blob) {
+      return JSON.parse(await blobToText(response.bodyBlob));
+    }
+    if (typeof response.bodyText === "string") {
+      return JSON.parse(response.bodyText);
+    }
     return await response.json();
   } catch {
     return null;
   }
+}
+
+function blobToText(blob) {
+  if (typeof blob.text === "function") return blob.text();
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result || ""));
+    reader.onerror = () => reject(reader.error || new Error("读取返回内容失败"));
+    reader.readAsText(blob);
+  });
 }
 
 function escapeHtml(value) {
