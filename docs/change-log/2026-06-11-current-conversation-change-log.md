@@ -213,3 +213,14 @@
 | 2026-06-13 22:47 CST | 部署 | CloudBase 函数 `colorseason-api` | 已通过 MCP 更新函数代码 | 函数端 JSON 响应已包含 `content-length`。 |
 | 2026-06-13 22:47 CST | 部署 | CloudBase 静态托管 | 已上传新版 `dist` 到根目录 | 线上页面已加载 `assets/app.js?v=20260613-4`。 |
 | 2026-06-13 22:47 CST | 验证 | 本地与线上 | `node --check assets/app.js`、`node --check cloudfunctions/colorseason-api/index.mjs`、`node --check lib/api-shared.js`、`npm run build` 均通过；线上 JS 已确认是 `responseType = "text"` | 最后一次接口验证只发无图片请求，不消耗 remove.bg。 |
+
+## 2026-06-13 23:37 CST 补充：撤回 JSON base64 方案，统一改为 PNG 二进制
+
+| 时间 | 类型 | 文件或设置 | 对应内容 | 说明 |
+| --- | --- | --- | --- | --- |
+| 2026-06-13 23:34 CST | 复盘 | Vercel / CloudBase 对照 | 发现 Vercel API 仍然直接返回 `image/png`，而 CloudBase 前端被改成了 `response=json` 后走 JSON base64 | 用户指出同一手机浏览器下 Vercel 成功、CloudBase 失败，说明不能归因于“手机浏览器问题”；真正差异是两边后端返回形态不一致。 |
+| 2026-06-13 23:36 CST | 代码 | `assets/app.js` | 移除 `form.append("response", "json")`，抠像请求改为 XHR `responseType="arraybuffer"`，再用返回的 `content-type` 构造 Blob | 让 CloudBase 和 Vercel 统一走直接 PNG 二进制；避免 CloudBase JSON base64 大响应和函数日志记录大段 `RetMsg`。 |
+| 2026-06-13 23:36 CST | 代码 | `cloudfunctions/colorseason-api/index.mjs` | 直接 PNG 返回补 `Content-Length` | 保持二进制响应更明确。 |
+| 2026-06-13 23:36 CST | 代码 | `index.html` | 资源版本号更新到 `20260613-5` | 避免 CloudBase 继续加载 `20260613-4`。 |
+| 2026-06-13 23:37 CST | 部署 | CloudBase 函数与静态托管 | 已更新函数 `colorseason-api`，并上传新版 `dist` 到静态托管根目录 | 未主动调用带图片的 `/remove-bg`，未额外消耗 remove.bg。 |
+| 2026-06-13 23:37 CST | 验证 | CloudBase 线上静态资源 | 首页已加载 `assets/app.js?v=20260613-5`；线上 JS 已确认有 `responseType = "arraybuffer"`，且不再包含 `response", "json"` | 无图片 POST 仅验证错误响应和 CORS，不消耗 remove.bg。 |

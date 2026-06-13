@@ -112,6 +112,7 @@ async function handleRemoveBg(req, res) {
   res.writeHead(200, {
     "Content-Type": "image/png",
     "Cache-Control": "no-store",
+    "Content-Length": responseBuffer.length,
   });
   res.end(responseBuffer);
 }

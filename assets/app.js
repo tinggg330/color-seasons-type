@@ -468,7 +468,6 @@ async function processPortrait(status, button) {
     const uploadBlob = await prepareUploadImage(state.originalBlob);
     const form = new FormData();
     form.append("image", uploadBlob, "selfie.jpg");
-    form.append("response", "json");
     const response = await requestRemoveBg(form);
     if (!response.ok) {
       const payload = await safeJson(response);
@@ -507,14 +506,17 @@ function requestRemoveBg(form) {
   return new Promise((resolve, reject) => {
     const request = new XMLHttpRequest();
     request.open("POST", apiUrl("/remove-bg"), true);
-    request.responseType = "text";
+    request.responseType = "arraybuffer";
     request.timeout = 60000;
     request.onload = () => {
       resolve({
         ok: request.status >= 200 && request.status < 300,
         status: request.status,
         contentType: request.getResponseHeader("content-type") || "",
-        bodyText: typeof request.response === "string" ? request.response : request.responseText || "",
+        bodyBuffer: request.response,
+        bodyBlob: new Blob([request.response || new ArrayBuffer(0)], {
+          type: request.getResponseHeader("content-type") || "application/octet-stream",
+        }),
       });
     };
     request.onerror = () => reject(new Error("Load failed"));
@@ -1302,9 +1304,6 @@ async function safeJson(response) {
   try {
     if (response.bodyBlob instanceof Blob) {
       return JSON.parse(await blobToText(response.bodyBlob));
-    }
-    if (typeof response.bodyText === "string") {
-      return JSON.parse(response.bodyText);
     }
     return await response.json();
   } catch {
