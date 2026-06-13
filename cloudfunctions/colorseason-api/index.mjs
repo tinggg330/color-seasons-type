@@ -1,7 +1,10 @@
 import http from "node:http";
+import tcb from "@cloudbase/node-sdk";
 
 const PORT = Number(process.env.PORT || 9000);
 const MAX_UPLOAD_BYTES = 4 * 1024 * 1024;
+const ENV_ID = "colorseason-d2gwzkab34f2582ba";
+const cloudbaseApp = tcb.init({ env: ENV_ID });
 
 const server = http.createServer(async (req, res) => {
   setCorsHeaders(res);
@@ -71,6 +74,7 @@ async function handleRemoveBg(req, res) {
   }
   const responseMode = partText(parts, "response") || "image";
   const wantsJson = responseMode === "json";
+  const wantsStorage = responseMode === "storage";
   console.log("remove-bg-request", JSON.stringify({
     imageBytes: image.data.length,
     imageType: image.contentType || "",
@@ -101,6 +105,16 @@ async function handleRemoveBg(req, res) {
     return;
   }
 
+  if (wantsStorage) {
+    const stored = await storeRemoveBgImage(responseBuffer);
+    sendJson(res, 200, {
+      tempFileURL: stored.tempFileURL,
+      fileID: stored.fileID,
+      bytes: responseBuffer.length,
+    });
+    return;
+  }
+
   if (wantsJson) {
     const imageDataUrl = `data:image/png;base64,${responseBuffer.toString("base64")}`;
     sendJson(res, 200, {
@@ -117,6 +131,38 @@ async function handleRemoveBg(req, res) {
     "Content-Length": responseBuffer.length,
   });
   res.end(responseBuffer);
+}
+
+async function storeRemoveBgImage(buffer) {
+  const now = new Date();
+  const date = [
+    now.getUTCFullYear(),
+    String(now.getUTCMonth() + 1).padStart(2, "0"),
+    String(now.getUTCDate()).padStart(2, "0"),
+  ].join("-");
+  const cloudPath = `remove-bg/${date}/${Date.now()}-${randomId()}.png`;
+  const uploadResult = await cloudbaseApp.uploadFile({
+    cloudPath,
+    fileContent: buffer,
+  });
+  const tempResult = await cloudbaseApp.getTempFileURL({
+    fileList: [{ fileID: uploadResult.fileID, maxAge: 3600 }],
+  });
+  const firstFile = tempResult.fileList?.[0];
+  if (!firstFile?.tempFileURL) throw new Error("云存储临时链接生成失败");
+  console.log("remove-bg-storage", JSON.stringify({
+    cloudPath,
+    fileID: uploadResult.fileID,
+    tempUrl: Boolean(firstFile.tempFileURL),
+  }));
+  return {
+    fileID: uploadResult.fileID,
+    tempFileURL: firstFile.tempFileURL,
+  };
+}
+
+function randomId() {
+  return Math.random().toString(36).slice(2, 10);
 }
 
 function partText(parts, name) {

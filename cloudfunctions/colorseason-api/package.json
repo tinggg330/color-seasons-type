@@ -2,5 +2,8 @@
   "name": "colorseason-api",
   "version": "0.1.0",
   "type": "module",
-  "private": true
+  "private": true,
+  "dependencies": {
+    "@cloudbase/node-sdk": "^3.18.1"
+  }
 }

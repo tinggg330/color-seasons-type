@@ -468,7 +468,7 @@ async function processPortrait(status, button) {
     const uploadBlob = await prepareUploadImage(state.originalBlob);
     const form = new FormData();
     form.append("image", uploadBlob, "selfie.jpg");
-    form.append("response", "json");
+    form.append("response", "storage");
     const response = await requestRemoveBg(form);
     if (!response.ok) {
       const payload = await safeJson(response);

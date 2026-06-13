@@ -241,3 +241,17 @@
 | 2026-06-14 00:12 CST | 验证 | CloudBase 线上静态资源 | 首页已加载 `styles.css?v=20260614-1` 和 `assets/app.js?v=20260614-1`；线上 JS 已确认包含 `form.append("response", "json")`、`imageDataUrl || image`、`fetchBlobFromUrl()` | 未主动上传测试图片，未消耗 remove.bg 次数。 |
 
 后续如果 `20260614-1` 仍失败，优先不要再在“函数直接返回图片/大 JSON”上反复尝试；下一条更稳路径是：CloudBase 函数拿到 remove.bg PNG 后写入 CloudBase 云存储，只返回一个小 JSON 临时链接，前端再下载该链接为 Blob。
+
+## 2026-06-14 00:21 CST 补充：改用 CloudBase 云存储临时链接返回抠像结果
+
+| 时间 | 类型 | 文件或设置 | 对应内容 | 说明 |
+| --- | --- | --- | --- | --- |
+| 2026-06-14 00:16 CST | 排查 | CloudBase 函数日志 `f10863ed-99a3-4780-bc2f-3ce07722a36c` | 日志显示 `responseMode:"json"`、remove.bg 返回 `200 image/png`、CloudBase `RetMsg` 已包含 `data:image/png;base64,...` | 说明前一版已经覆盖“JSON Data URL”建议，但手机端仍失败，问题不应继续归因于前端未等待 `img.onload` 或未生成 Data URL。 |
+| 2026-06-14 00:18 CST | 代码 | `cloudfunctions/colorseason-api/package.json` | 新增 `@cloudbase/node-sdk` 依赖 | 用于在 CloudBase HTTP Function 内把 PNG 写入 CloudBase 云存储。 |
+| 2026-06-14 00:18 CST | 代码 | `cloudfunctions/colorseason-api/index.mjs` | 新增 `responseMode === "storage"` 分支；remove.bg 返回 PNG 后上传到 `remove-bg/YYYY-MM-DD/...png`，再通过 `getTempFileURL()` 返回 1 小时临时链接 | 避免函数网关直接返回大 PNG 或大 Data URL，只返回小 JSON。 |
+| 2026-06-14 00:18 CST | 代码 | `assets/app.js` | 抠像请求从 `response=json` 改为 `response=storage`；前端已有 `tempFileURL` 下载 Blob 兼容逻辑 | 前端改为通过 CloudBase 云存储链接拿抠像 PNG。 |
+| 2026-06-14 00:18 CST | 代码 | `index.html` | 资源版本号更新为 `20260614-2` | 避免加载旧 JS。 |
+| 2026-06-14 00:19 CST | 验证 | 本地命令 | `node --check assets/app.js`、`node --check cloudfunctions/colorseason-api/index.mjs`、`npm run build` 均通过 | 未调用带图片的 `/remove-bg`，未消耗 remove.bg 次数。 |
+| 2026-06-14 00:20 CST | 部署 | CloudBase 函数 `colorseason-api` | 已更新函数代码；函数详情显示 `ModTime` 为 `2026-06-14 00:20:32`，`CodeSize` 约 5.4MB，状态 `Available` | 依赖已进入函数包。 |
+| 2026-06-14 00:21 CST | 部署 | CloudBase 静态托管 | 已上传新版 `dist` 到托管根目录 | 线上访问地址不变。 |
+| 2026-06-14 00:21 CST | 验证 | CloudBase 线上静态资源 | 首页已加载 `styles.css?v=20260614-2` 和 `assets/app.js?v=20260614-2`；线上 JS 已确认包含 `form.append("response", "storage")` 和 `fetchBlobFromUrl()` | 未主动上传测试图片，未消耗 remove.bg 次数。 |
