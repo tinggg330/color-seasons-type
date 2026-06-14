@@ -474,7 +474,17 @@ async function processPortrait(status, button) {
       const payload = await safeJson(response);
       throw new Error(payload?.error || "抠像失败");
     }
-    const blob = await removeBgResponseBlob(response);
+    const result = await removeBgResponseImage(response);
+    if (result.url) {
+      revokePortrait();
+      state.portraitBlob = null;
+      state.portraitUrl = result.url;
+      state.portraitMode = "cutout";
+      setStatus(status, "抠像完成，进入四大季型对比。");
+      renderGroupCompare();
+      return;
+    }
+    const blob = result.blob;
     const croppedBlob = await normalizeCutoutForCardHole(blob).catch((error) => {
       console.warn("cutout-normalize-failed", error);
       return blob;
@@ -492,17 +502,17 @@ async function processPortrait(status, button) {
   }
 }
 
-async function removeBgResponseBlob(response) {
+async function removeBgResponseImage(response) {
   const contentType = getResponseContentType(response);
   if (contentType.includes("application/json")) {
     const payload = await safeJson(response);
     const imageDataUrl = payload?.imageDataUrl || payload?.image;
-    if (imageDataUrl) return dataUrlToBlob(imageDataUrl);
-    if (payload?.tempFileURL) return fetchBlobFromUrl(payload.tempFileURL);
+    if (imageDataUrl) return { blob: dataUrlToBlob(imageDataUrl) };
+    if (payload?.tempFileURL) return { url: payload.tempFileURL };
     throw new Error("抠像结果格式不正确");
   }
-  if (response.bodyBlob instanceof Blob) return response.bodyBlob;
-  return response.blob();
+  if (response.bodyBlob instanceof Blob) return { blob: response.bodyBlob };
+  return { blob: await response.blob() };
 }
 
 async function requestRemoveBg(form) {
@@ -544,12 +554,6 @@ function dataUrlToBlob(dataUrl) {
     bytes[index] = binary.charCodeAt(index);
   }
   return new Blob([bytes], { type: match[1] || "image/png" });
-}
-
-async function fetchBlobFromUrl(url) {
-  const response = await fetch(url, { cache: "no-store" });
-  if (!response.ok) throw new Error("抠像图片下载失败");
-  return response.blob();
 }
 
 async function prepareUploadImage(blob) {
@@ -1305,7 +1309,9 @@ function revokeOriginal() {
 }
 
 function revokePortrait() {
-  if (state.portraitUrl && state.portraitUrl !== state.originalUrl) URL.revokeObjectURL(state.portraitUrl);
+  if (state.portraitUrl && state.portraitUrl.startsWith("blob:") && state.portraitUrl !== state.originalUrl) {
+    URL.revokeObjectURL(state.portraitUrl);
+  }
   state.portraitBlob = null;
   state.portraitUrl = "";
 }

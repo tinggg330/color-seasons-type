@@ -107,7 +107,10 @@ async function handleRemoveBg(req, res) {
 
   if (wantsStorage) {
     const stored = await storeRemoveBgImage(responseBuffer);
+    const imageDataUrl = pngDataUrl(responseBuffer);
     sendJson(res, 200, {
+      image: imageDataUrl,
+      imageDataUrl,
       tempFileURL: stored.tempFileURL,
       fileID: stored.fileID,
       bytes: responseBuffer.length,
@@ -116,7 +119,7 @@ async function handleRemoveBg(req, res) {
   }
 
   if (wantsJson) {
-    const imageDataUrl = `data:image/png;base64,${responseBuffer.toString("base64")}`;
+    const imageDataUrl = pngDataUrl(responseBuffer);
     sendJson(res, 200, {
       image: imageDataUrl,
       imageDataUrl,
@@ -131,6 +134,10 @@ async function handleRemoveBg(req, res) {
     "Content-Length": responseBuffer.length,
   });
   res.end(responseBuffer);
+}
+
+function pngDataUrl(buffer) {
+  return `data:image/png;base64,${buffer.toString("base64")}`;
 }
 
 async function storeRemoveBgImage(buffer) {

@@ -255,3 +255,18 @@
 | 2026-06-14 00:20 CST | 部署 | CloudBase 函数 `colorseason-api` | 已更新函数代码；函数详情显示 `ModTime` 为 `2026-06-14 00:20:32`，`CodeSize` 约 5.4MB，状态 `Available` | 依赖已进入函数包。 |
 | 2026-06-14 00:21 CST | 部署 | CloudBase 静态托管 | 已上传新版 `dist` 到托管根目录 | 线上访问地址不变。 |
 | 2026-06-14 00:21 CST | 验证 | CloudBase 线上静态资源 | 首页已加载 `styles.css?v=20260614-2` 和 `assets/app.js?v=20260614-2`；线上 JS 已确认包含 `form.append("response", "storage")` 和 `fetchBlobFromUrl()` | 未主动上传测试图片，未消耗 remove.bg 次数。 |
+
+## 2026-06-14 00:35 CST 补充：兼容旧前端缓存，改为 Data URL 优先
+
+| 时间 | 类型 | 文件或设置 | 对应内容 | 说明 |
+| --- | --- | --- | --- | --- |
+| 2026-06-14 00:29 CST | 排查 | CloudBase 函数日志 `dbcfa205-d6e3-4446-9efe-076d7a42c43b` | 日志显示 remove.bg 返回 `200 image/png`，云函数成功上传到 CloudBase 云存储并返回 `tempFileURL` | 确认后端、remove.bg、云存储上传都成功；失败不在 remove.bg 调用本身。 |
+| 2026-06-14 00:33 CST | 排查 | CloudBase 云存储临时图 | 临时图链接可返回 `200 image/png`，PNG 签名正确，但响应头没有 `Access-Control-Allow-Origin` | 旧前端会 `fetch(tempFileURL)`，Safari / 移动浏览器会因无 CORS 失败并显示 `Load failed`。 |
+| 2026-06-14 00:34 CST | 代码 | `cloudfunctions/colorseason-api/index.mjs` | `response=storage` 时除了 `tempFileURL`，也同时返回 `image` 和 `imageDataUrl` | 兼容仍缓存上一版 JS 的手机；旧前端会优先读取 Data URL，不再 fetch 临时图。 |
+| 2026-06-14 00:34 CST | 代码 | `assets/app.js` | JSON 响应解析改为优先使用 `imageDataUrl` / `image`，仅在没有 Data URL 时才使用 `tempFileURL` | 新前端也绕开无 CORS 的临时图链路。 |
+| 2026-06-14 00:34 CST | 代码 | `index.html` | 资源版本号更新为 `20260614-4` | 避免继续加载 `20260614-2` / `20260614-3` 旧脚本。 |
+| 2026-06-14 00:35 CST | 验证 | 本地命令 | `node --check assets/app.js`、`node --check cloudfunctions/colorseason-api/index.mjs`、`npm run build` 均通过 | 未调用带图片的 `/remove-bg`，未消耗 remove.bg 次数。 |
+| 2026-06-14 00:35 CST | 部署 | CloudBase 函数与静态托管 | 首次尝试通过 MCP 更新函数和静态托管时被平台使用限制拦截，需要稍后重试 | 本地代码当时已修复并构建，但尚未成功发布到 CloudBase 线上。 |
+| 2026-06-14 13:56 CST | 部署 | CloudBase 函数 `colorseason-api` | 额度恢复后已通过 MCP 更新函数代码；函数详情显示 `ModTime` 为 `2026-06-14 13:56:40`、状态 `Available` | 只确认环境变量存在和函数状态，不记录真实密钥值。 |
+| 2026-06-14 13:56 CST | 部署 | CloudBase 静态托管 | 已上传新版 `dist` 到托管根目录 | 线上访问地址仍为 `https://colorseason-d2gwzkab34f2582ba-1442165714.tcloudbaseapp.com/`。 |
+| 2026-06-14 13:57 CST | 验证 | CloudBase 线上静态资源 | 首页已加载 `styles.css?v=20260614-4` 和 `assets/app.js?v=20260614-4`；线上 JS 已确认不包含 `fetchBlobFromUrl`，并包含 `imageDataUrl` 优先、`tempFileURL` 兜底逻辑 | 未调用带图片的 `/remove-bg`，未消耗 remove.bg 次数。 |
