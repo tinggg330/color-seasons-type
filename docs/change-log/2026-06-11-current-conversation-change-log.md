@@ -270,3 +270,16 @@
 | 2026-06-14 13:56 CST | 部署 | CloudBase 函数 `colorseason-api` | 额度恢复后已通过 MCP 更新函数代码；函数详情显示 `ModTime` 为 `2026-06-14 13:56:40`、状态 `Available` | 只确认环境变量存在和函数状态，不记录真实密钥值。 |
 | 2026-06-14 13:56 CST | 部署 | CloudBase 静态托管 | 已上传新版 `dist` 到托管根目录 | 线上访问地址仍为 `https://colorseason-d2gwzkab34f2582ba-1442165714.tcloudbaseapp.com/`。 |
 | 2026-06-14 13:57 CST | 验证 | CloudBase 线上静态资源 | 首页已加载 `styles.css?v=20260614-4` 和 `assets/app.js?v=20260614-4`；线上 JS 已确认不包含 `fetchBlobFromUrl`，并包含 `imageDataUrl` 优先、`tempFileURL` 兜底逻辑 | 未调用带图片的 `/remove-bg`，未消耗 remove.bg 次数。 |
+
+## 2026-06-19 15:50 CST 补充：同步十二季型报告排版与文案
+
+| 时间 | 类型 | 文件或设置 | 对应内容 | 说明 |
+| --- | --- | --- | --- | --- |
+| 2026-06-19 15:35 CST | 代码 | `assets/app.js` | Color Temperament 与 Keywords 分栏；使用各季型独立 `color_temperament` 文案；SVG 长图按像素宽度换行，避免文字越过分栏线和外框 | 网页报告与保存至相册的长图共用同一套报告生成逻辑。 |
+| 2026-06-19 15:35 CST | 数据 | `color_seasons.json` | 为全部 12 个季型补充完整 `color_temperament` 文案 | 替代从简介或色盘描述拼接气质正文。 |
+| 2026-06-19 15:35 CST | 工具 | `scripts/export-season-reports.mjs`、`scripts/report-render.html`、`package.json` | 新增 `npm run export:reports`，用于本地批量生成 12 季型 SVG 和预览 PNG | 工具提交 GitHub，但不进入 CloudBase 静态站点构建。 |
+| 2026-06-19 15:45 CST | 代码 | `assets/app.js`、`styles.css` | 避雷色块文字恢复固定版式：默认白、黑、白；仅暖秋第三格使用黑字，形成白、黑、黑 | 撤回按背景亮度自动选择黑白字的全局规则。 |
+| 2026-06-19 15:46 CST | 配置 | `.gitignore` | 新增 `exports/` | 12 季型导出图仅用于本地查看，不上传 CloudBase，也不提交 GitHub。 |
+| 2026-06-19 15:47 CST | 代码 | `index.html` | JS/CSS 资源版本号更新为 `20260619-1` | 避免移动端继续命中旧缓存。 |
+| 2026-06-19 15:49 CST | 验证 | 本地命令与预览 | `npm run export:reports`、`node --check assets/app.js`、`node --check scripts/export-season-reports.mjs`、`npm run build`、`git diff --check` 均通过；目视确认净春为白黑白、暖秋为白黑黑 | `exports/` 中预览图不属于发布产物。 |
+| 2026-06-19 15:55 CST | 部署与验证 | CloudBase 静态托管 | 已上传新版 `dist`；线上首页加载 `styles.css?v=20260619-1` 和 `assets/app.js?v=20260619-1`，线上 JS 已确认包含 `colorTemperament()`、按像素换行和暖秋第三格黑字例外 | 后端未变更，未更新云函数，未调用 remove.bg。 |

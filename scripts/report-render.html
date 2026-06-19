@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Report Export Renderer</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background: #f8f6ef;
+      }
+
+      img {
+        display: none;
+      }
+
+      canvas {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <img id="report" alt="" />
+    <canvas id="canvas"></canvas>
+    <script>
+      const source = new URLSearchParams(location.search).get("src");
+      const image = document.querySelector("#report");
+      const canvas = document.querySelector("#canvas");
+      image.addEventListener("load", () => {
+        canvas.width = image.naturalWidth;
+        canvas.height = image.naturalHeight;
+        canvas.getContext("2d").drawImage(image, 0, 0);
+        document.body.dataset.png = canvas.toDataURL("image/png");
+        document.title = `ready:${canvas.width}x${canvas.height}`;
+      });
+      image.src = source || "";
+    </script>
+  </body>
+</html>

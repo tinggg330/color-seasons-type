@@ -785,7 +785,7 @@ function seasonReportMarkup(detail, group) {
       <section class="report-columns">
         <div>
           <h2>Color Temperament</h2>
-          <p>${escapeHtml(detail.palette_character || detail.description)}</p>
+          <p>${escapeHtml(colorTemperament(detail))}</p>
         </div>
         <aside>
           <p>Keywords</p>
@@ -826,7 +826,7 @@ function seasonReportMarkup(detail, group) {
       <section class="report-avoid">
         <h2>Colors To Avoid</h2>
         <div>
-          ${detail.colors.avoid.map((color) => `<span style="--c: ${escapeHtml(color.hex)}">${escapeHtml(color.name)}</span>`).join("")}
+          ${detail.colors.avoid.map((color, index) => `<span style="--c: ${escapeHtml(color.hex)}; --text: ${avoidColorText(detail, index)}">${escapeHtml(color.name)}</span>`).join("")}
         </div>
         <p>${escapeHtml(detail.draping_effects?.avoid || "过强、过暗或不符合季型属性的颜色容易削弱整体气色。")}</p>
       </section>
@@ -856,6 +856,11 @@ function reportMeta(detail) {
 
 function dimensionLabel(type, value) {
   return DIMENSION_LABELS[type]?.[value] || value;
+}
+
+function colorTemperament(detail) {
+  return detail.color_temperament
+    || `${detail.description}${detail.palette_character ? ` 整体色彩气质是${detail.palette_character}` : ""}`;
 }
 
 function keywordLine(detail) {
@@ -1015,9 +1020,9 @@ function reportImageSvg(detail, group) {
     const font = family === "serif" ? "Georgia, 'Times New Roman', serif" : "-apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif";
     add(`<text x="${x}" y="${textY}" font-family="${font}" font-size="${size}" font-weight="${weight}" fill="${color}" text-anchor="${anchor}">${escapeHtml(value)}</text>`);
   };
-  const wrapped = (value, x, textY, maxChars, size = 30, lineHeight = 48, color = "#383632", weight = 400) => {
+  const wrapped = (value, x, textY, maxWidth, size = 30, lineHeight = 48, color = "#383632", weight = 400) => {
     let currentY = textY;
-    for (const line of wrapText(value, maxChars)) {
+    for (const line of wrapTextToWidth(value, maxWidth, size)) {
       text(line, x, currentY, size, weight, color);
       currentY += lineHeight;
     }
@@ -1043,7 +1048,7 @@ function reportImageSvg(detail, group) {
   y += 78;
 
   text(summaryTitle(detail), contentX, y, 44, 800);
-  y = wrapped(detail.description, contentX, y + 62, 31, 31, 52) + 64;
+  y = wrapped(detail.description, contentX, y + 62, contentW, 31, 52) + 64;
   sectionRule(y);
   y += 2;
 
@@ -1065,12 +1070,13 @@ function reportImageSvg(detail, group) {
   y += 58;
 
   const columnStart = y;
-  const columnSplit = contentX + 338;
+  const columnSplit = contentX + 510;
+  const columnGap = 30;
   text("Color Temperament", contentX, y, 45, 500, "#171717", "serif");
-  const leftEnd = wrapped(detail.palette_character || detail.description, contentX, y + 64, 17, 31, 52);
+  const leftEnd = wrapped(colorTemperament(detail), contentX, y + 64, columnSplit - contentX - columnGap, 31, 52);
   add(`<line x1="${columnSplit}" y1="${columnStart}" x2="${columnSplit}" y2="${Math.max(leftEnd + 40, columnStart + 176)}" stroke="${border}" stroke-width="2"/>`);
-  text("Keywords", columnSplit + 30, y + 18, 24, 500, "#67625b", "serif");
-  const rightEnd = wrapped(keywordLine(detail), columnSplit + 30, y + 68, 20, 34, 54, "#171717", 800);
+  text("Keywords", columnSplit + columnGap, y + 18, 24, 500, "#67625b", "serif");
+  const rightEnd = wrapped(keywordLine(detail), columnSplit + columnGap, y + 68, contentX + contentW - columnSplit - columnGap, 34, 54, "#171717", 800);
   y = Math.max(leftEnd, rightEnd) + 58;
   sectionRule(y);
   y += 64;
@@ -1092,7 +1098,7 @@ function reportImageSvg(detail, group) {
   y += 64;
 
   text("Wearing Notes", contentX, y, 45, 500, "#171717", "serif");
-  y = wrapped(wearingNotes(detail, group), contentX, y + 68, 32, 31, 54) + 62;
+  y = wrapped(wearingNotes(detail, group), contentX, y + 68, contentW, 31, 54) + 62;
   sectionRule(y);
   y += 64;
 
@@ -1102,7 +1108,7 @@ function reportImageSvg(detail, group) {
     const rowY = y;
     add(`<line x1="${contentX}" y1="${rowY}" x2="${contentX + contentW}" y2="${rowY}" stroke="${border}" stroke-opacity="0.32" stroke-width="2"/>`);
     text(label, contentX, rowY + 52, 27, 500, "#171717", "serif");
-    const copyEnd = wrapped(copy, contentX + 210, rowY + 52, 25, 29, 46);
+    const copyEnd = wrapped(copy, contentX + 210, rowY + 52, contentW - 210, 29, 46);
     colors.slice(0, 3).forEach((color, index) => {
       const swatchX = contentX + 210 + index * 54;
       add(`<rect x="${swatchX}" y="${Math.max(copyEnd + 24, rowY + 92)}" width="54" height="66" fill="${escapeHtml(color)}" stroke="${border}" stroke-width="2"/>`);
@@ -1116,7 +1122,7 @@ function reportImageSvg(detail, group) {
   y += 58;
   evidence.forEach((item) => {
     text("•", contentX + 6, y, 32, 700);
-    y = wrapped(item, contentX + 42, y, 32, 30, 50) + 30;
+    y = wrapped(item, contentX + 42, y, contentW - 42, 30, 50) + 30;
   });
   y += 18;
   sectionRule(y);
@@ -1130,7 +1136,7 @@ function reportImageSvg(detail, group) {
     const x = contentX + index * avoidW;
     if (index > 0) add(`<line x1="${x}" y1="${y}" x2="${x}" y2="${y + 124}" stroke="${border}" stroke-width="2"/>`);
     add(`<rect x="${x}" y="${y}" width="${avoidW}" height="124" fill="${escapeHtml(color.hex)}"/>`);
-    text(color.name, x + 22, y + 92, 26, 800, index === 1 ? "#26210e" : "#fffdf8");
+    text(color.name, x + 22, y + 92, 26, 800, avoidColorText(detail, index));
   });
   y += 170;
   text(finalRule(detail), width / 2, y, 42, 800, "#171717", "sans", "middle");
@@ -1155,32 +1161,46 @@ function reportImageSvg(detail, group) {
   `;
 }
 
-function wrapText(text, maxChars) {
+function wrapTextToWidth(text, maxWidth, fontSize) {
   const source = String(text || "").replace(/\s+/g, " ").trim();
   if (!source) return [];
-  const chunks = source.split(/([，。；、,.!?！？])/).reduce((result, part, index, array) => {
-    if (!part) return result;
-    if (/^[，。；、,.!?！？]$/.test(part) && result.length) {
-      result[result.length - 1] += part;
-      return result;
-    }
-    result.push(part);
-    return result;
-  }, []);
   const lines = [];
   let line = "";
-  for (const chunk of chunks) {
-    for (const char of chunk) {
-      if ((line + char).length > maxChars) {
-        lines.push(line);
-        line = char;
+  let lineWidth = 0;
+  for (const char of source) {
+    const charWidth = estimatedGlyphWidth(char, fontSize);
+    if (line && lineWidth + charWidth > maxWidth) {
+      if (/[，。；、,.!?！？：:）)\]】]/u.test(char) && line.length > 1) {
+        const previousChar = line.at(-1);
+        const previousWidth = estimatedGlyphWidth(previousChar, fontSize);
+        lines.push(line.slice(0, -1).trimEnd());
+        line = `${previousChar}${char}`;
+        lineWidth = previousWidth + charWidth;
       } else {
-        line += char;
+        lines.push(line.trimEnd());
+        line = char.trimStart();
+        lineWidth = line ? charWidth : 0;
       }
+    } else {
+      line += char;
+      lineWidth += charWidth;
     }
   }
   if (line) lines.push(line);
   return lines;
+}
+
+function estimatedGlyphWidth(char, fontSize) {
+  if (/\s/.test(char)) return fontSize * 0.32;
+  if (/[\u2e80-\u9fff\uff00-\uffef]/u.test(char)) return fontSize;
+  if (/[A-Z0-9]/.test(char)) return fontSize * 0.66;
+  if (/[a-z]/.test(char)) return fontSize * 0.56;
+  return fontSize * 0.48;
+}
+
+function avoidColorText(detail, index) {
+  if (index === 1 || (detail.id === "warm_autumn" && index === 2)) return "#26210e";
+  return "#fffdf8";
 }
 
 function downloadBlob(blob, filename) {

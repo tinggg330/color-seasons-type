@@ -784,15 +784,11 @@ video {
   padding: 10px;
   display: grid;
   align-content: end;
-  color: #fff;
+  color: var(--text, #fff);
   background: var(--c);
   border-right: 1px solid #1d1b18;
   font-size: 13px;
   font-weight: 700;
-}
-
-.report-avoid span:nth-child(2) {
-  color: #26210e;
 }
 
 .report-avoid span:last-child {
